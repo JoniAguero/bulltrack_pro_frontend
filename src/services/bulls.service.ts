@@ -8,6 +8,7 @@ export async function getBulls(
     filters?: {
         source?: string;
         sort?: string;
+        favorites?: string;
     }
 ): Promise<BullsResponse> {
     // Construct URL with query params
@@ -17,6 +18,9 @@ export async function getBulls(
 
     if (filters?.source) url.searchParams.append("source", filters.source);
     if (filters?.sort) url.searchParams.append("sort", filters.sort);
+    if (filters?.favorites) url.searchParams.append("favorites", filters.favorites);
+
+    console.log("Fetching bulls from:", url.toString());
 
     try {
         const res = await fetch(url.toString(), {

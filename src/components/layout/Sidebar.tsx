@@ -11,7 +11,7 @@ const FilterCard = ({ children, className, onClick }: { children: React.ReactNod
   <div 
      onClick={onClick}
      className={cn(
-       "bg-[#161E1C] p-4 rounded-xl flex items-center justify-between cursor-pointer border border-transparent hover:border-emerald-500/30 transition-all", 
+       "bg-[#152B1E] p-4 rounded-xl flex items-center justify-between cursor-pointer border border-transparent hover:border-[#36E27B]/30 transition-all", 
        className
      )}
   >
@@ -22,8 +22,8 @@ const FilterCard = ({ children, className, onClick }: { children: React.ReactNod
 // Helper for the Checkbox square
 const Checkbox = ({ checked }: { checked: boolean }) => (
   <div className={cn(
-     "h-6 w-6 rounded-md flex items-center justify-center transition-colors",
-     checked ? "bg-emerald-500 text-black shadow-sm" : "bg-transparent border border-emerald-500/50"
+     "h-6 w-6 rounded-lg flex items-center justify-center transition-colors border-2",
+     checked ? "bg-[#36E27B] border-[#36E27B] text-black shadow-sm" : "bg-transparent border-[#36E27B]/50"
   )}>
       {checked && <Check className="h-4 w-4 stroke-[3]" />}
   </div>
@@ -41,29 +41,40 @@ function SidebarContent({ className }: { className?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleFilterChange = (key: string, value: string | null) => {
+  const handleOriginChange = (mode: 'source' | 'favorites' | 'all', value?: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (value === null) {
-      params.delete(key);
-    } else {
-      // If same value clicked, toggle off (optional, but standard behavior)
-      if (params.get(key) === value) {
-         params.delete(key);
+
+    if (mode === 'all') {
+      params.delete("source");
+      params.delete("favorites");
+    } 
+    else if (mode === 'source' && value) {
+      if (searchParams.get("source") === value) {
+         params.delete("source");
       } else {
-         params.set(key, value);
+         params.set("source", value);
+         params.delete("favorites");
       }
+    }
+    else if (mode === 'favorites') {
+       if (searchParams.get("favorites") === "true") {
+          params.delete("favorites");
+       } else {
+          params.set("favorites", "true");
+          params.delete("source");
+       }
     }
     router.replace(`?${params.toString()}`);
   };
 
   const isActive = (key: string, value: string) => searchParams.get(key) === value;
+  const isFavoritesActive = searchParams.get("favorites") === "true";
 
   return (
     <div className={cn("flex flex-col h-screen w-80 bg-[#111714] text-white p-6 border-none overflow-y-auto overflow-x-hidden no-scrollbar", className)}>
       {/* Brand */}
       <div className="flex items-center gap-3 mb-8 px-1">
-        <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold">
+        <div className="h-8 w-8 rounded-full bg-[#36E27B] flex items-center justify-center text-white font-bold">
           B
         </div>
         <span className="text-xl font-bold tracking-tight">Bulltrack</span>
@@ -80,27 +91,27 @@ function SidebarContent({ className }: { className?: string }) {
                 Origen
              </label>
              {/* Todos */}
-             <FilterCard onClick={() => handleFilterChange("source", null)}>
+             <FilterCard onClick={() => handleOriginChange("all")}>
                  <span className="text-sm font-medium text-gray-200">Todos</span>
-                 <Checkbox checked={!searchParams.get("source")} />
+                 <Checkbox checked={!searchParams.get("source") && !isFavoritesActive} />
              </FilterCard>
 
              {/* Toros propios */}
-             <FilterCard onClick={() => handleFilterChange("source", "PROPIO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "PROPIO")}>
                  <span className="text-sm font-medium text-gray-200">Toros propios</span>
                  <Checkbox checked={isActive("source", "PROPIO")} />
              </FilterCard>
              
              {/* Catálogo */}
-             <FilterCard onClick={() => handleFilterChange("source", "CATALOGO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")}>
                  <span className="text-sm font-medium text-gray-200">Catálogo</span>
                  <Checkbox checked={isActive("source", "CATALOGO")} />
              </FilterCard>
 
              {/* Favoritos */}
-             <FilterCard>
+             <FilterCard onClick={() => handleOriginChange("favorites")}>
                  <span className="text-sm font-medium text-gray-200">Favoritos</span>
-                 <Checkbox checked={false} />
+                 <Checkbox checked={isFavoritesActive} />
              </FilterCard>
         </div>
 
@@ -115,7 +126,7 @@ function SidebarContent({ className }: { className?: string }) {
                 <span className="text-xs text-gray-500 mt-0.5">Facilidad de parto</span>
              </div>
              {/* Toggle Switch */}
-             <div className="w-12 h-6 bg-emerald-500 rounded-full relative cursor-pointer">
+             <div className="w-12 h-6 bg-[#36E27B] rounded-full relative cursor-pointer">
                 <div className="absolute right-0.5 top-0.5 w-5 h-5 bg-black rounded-full shadow-sm" />
              </div>
           </FilterCard>
@@ -127,7 +138,7 @@ function SidebarContent({ className }: { className?: string }) {
               <div className="flex flex-col">
                  <span className="text-sm font-medium text-gray-200">Todos</span>
               </div>
-              <ChevronDown className="h-5 w-5 text-emerald-500" />
+              <ChevronDown className="h-5 w-5 text-[#36E27B]" />
           </FilterCard>
         </div>
 
@@ -140,21 +151,21 @@ function SidebarContent({ className }: { className?: string }) {
               <div className="flex flex-col">
                  <span className="text-sm font-medium text-gray-200">Score mejor a peor</span>
               </div>
-              <ChevronDown className="h-5 w-5 text-emerald-500" />
+              <ChevronDown className="h-5 w-5 text-[#36E27B]" />
             </FilterCard>
         </div>
       </div>
 
        {/* Widget: Objetivo Actual (Pinned at bottom) */}
        <div className="mt-8 pt-6 border-t border-gray-800">
-          <div className="p-5 rounded-2xl bg-[#161E1C] space-y-4 border border-[#1f2b28]">
+          <div className="p-5 rounded-2xl bg-[#152B1E] space-y-4 border border-[#1f2b28]">
             <h4 className="text-white font-bold text-sm">Objetivo actual</h4>
             <p className="text-sm text-gray-400 leading-relaxed">
                Maximizar la ganancia de peso (destete) manteniendo facilidad de parto.
             </p>
             <Button 
                variant="outline" 
-               className="w-full justify-between bg-transparent border-emerald-500/50 text-emerald-500 hover:bg-emerald-500/10 hover:text-emerald-400 h-10 rounded-xl"
+               className="w-full justify-between bg-transparent border-[#36E27B]/50 text-[#36E27B] hover:bg-[#36E27B]/10 hover:text-[#36E27B] h-10 rounded-xl"
             >
                <ArrowLeft className="h-4 w-4" />
                <span className="text-sm font-medium">Editar criterios</span>

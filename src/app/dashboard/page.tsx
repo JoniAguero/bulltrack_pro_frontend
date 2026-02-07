@@ -11,7 +11,9 @@ interface DashboardPageProps {
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const source = typeof searchParams.source === "string" ? searchParams.source : undefined;
-  const bulls = await getData({ source });
+  const favorites = typeof searchParams.favorites === "string" ? searchParams.favorites : undefined;
+  
+  const bulls = await getData({ source, favorites });
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
@@ -84,7 +86,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 }
 
 // Fetch data on server
-async function getData(filters?: { source?: string }) {
+async function getData(filters?: { source?: string; favorites?: string }) {
   // Mock data fallback if API fails (for development safety)
   try {
      const res = await getBulls(1, 10, filters);
@@ -132,6 +134,10 @@ async function getData(filters?: { source?: string }) {
 
      if (filters?.source) {
        data = data.filter(bull => bull.source === filters.source);
+     }
+
+     if (filters?.favorites === "true") {
+       data = data.filter(bull => bull.isFavorite);
      }
      
      return data;
