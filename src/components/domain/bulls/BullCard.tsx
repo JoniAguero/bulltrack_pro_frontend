@@ -53,7 +53,7 @@ export function BullCard({ bull }: BullCardProps) {
              </span>
              {bull.characteristics?.slice(0, 2).map((char, i) => (
                 <span key={i} className="text-[10px] px-2 py-0.5 rounded border border-blue-200 text-blue-600 bg-blue-50 font-medium">
-                   {char.name}
+                   {t("characteristics", char.name)}
                 </span>
              ))}
           </div>
@@ -75,7 +75,7 @@ export function BullCard({ bull }: BullCardProps) {
             />
           </div>
           <p className="text-xs text-gray-500 truncate mt-1">
-             {bull.characteristics?.[0]?.name || "Desempeño destacado"}
+             {t("characteristics", bull.characteristics?.[0]?.name || "Desempeño destacado")}
           </p>
         </div>
 

@@ -24,6 +24,13 @@ export const TRANSLATIONS = {
         currentObjective: "Objetivo actual",
         editCriteria: "Editar criterios",
         activeFilters: "Filtros activos",
+    },
+    characteristics: {
+        "Top 1% calving ease": "Top 1% facilidad de parto",
+        "Top 5% carcass": "Top 5% calidad de carcasa",
+        "Efficiency Leader": "Líder en eficiencia",
+        "Heat Tolerant": "Tolerante al calor",
+        "Performance Pro": "Desempeño Pro",
     }
 } as const;
 
