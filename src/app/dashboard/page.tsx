@@ -12,6 +12,11 @@ interface DashboardPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+import { ViewToggle } from "@/components/domain/bulls/ViewToggle";
+import { BullGridCard } from "@/components/domain/bulls/BullGridCard";
+import { cn } from "@/lib/utils";
+
+// ... inside DashboardPage component
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const params = await searchParams;
   const origen = typeof params.origen === "string" ? params.origen : undefined;
@@ -19,6 +24,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const uso = typeof params.uso === "string" ? params.uso : undefined;
   const pelaje = typeof params.pelaje === "string" ? params.pelaje : undefined;
   const search = typeof params.search === "string" ? params.search : undefined;
+  const view = typeof params.view === "string" ? params.view : "list";
 
   const token = (await cookies()).get("session_token")?.value;
   
@@ -54,7 +60,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       </div>
 
       {/* 3. Search & Toolbar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm gap-3sm:gap-0">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm gap-3 sm:gap-0">
          <div className="flex-1">
             <SearchInput placeholder={t("ui", "searchPlaceholder")} />
          </div>
@@ -64,25 +70,30 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                {bulls.length} <span className="font-normal text-gray-500 text-sm md:text-base">{t("ui", "results")}</span>
             </span>
             
-            <div className="flex items-center bg-gray-100 rounded-lg p-1">
-               <button className="p-1.5 rounded bg-gray-900 text-white shadow-sm">
-                  <List className="h-4 w-4 md:h-5 md:w-5" />
-               </button>
-               <button className="p-1.5 rounded text-gray-400 hover:text-gray-600">
-                  <LayoutGrid className="h-4 w-4 md:h-5 md:w-5" />
-               </button>
-            </div>
+            <ViewToggle />
          </div>
       </div>
 
-      {/* 4. Results List */}
-      <div className="space-y-3 md:space-y-4">
+      {/* 4. Results List / Grid */}
+      <div className={cn(
+        "gap-3 md:gap-4 transition-all duration-300",
+        view === "grid" 
+          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
+          : "flex flex-col"
+      )}>
         {bulls.length > 0 ? (
           bulls.map((bull, index) => (
-            <BullCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
+            view === "grid" ? (
+              <BullGridCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
+            ) : (
+              <BullCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
+            )
           ))
         ) : (
-          <div className="text-center py-10 md:py-20 text-gray-500 bg-white rounded-2xl border border-dashed">
+          <div className={cn(
+             "text-center py-10 md:py-20 text-gray-500 bg-white rounded-2xl border border-dashed",
+             view === "grid" ? "col-span-full" : "w-full"
+          )}>
             {t("ui", "noResults")}
           </div>
         )}
