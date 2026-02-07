@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/Button";
-import { Card, CardContent } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { Input } from "@/components/ui/Input";
-import { Search, Download, List, LayoutGrid, Eye, Heart, Info, ArrowRight } from "lucide-react";
+import { Search, Download, List, LayoutGrid, Info } from "lucide-react";
+import { getBulls } from "@/services/bulls.service";
+import { BullCard } from "@/components/domain/bulls/BullCard";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const bulls = await getData();
+
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Top Section */}
@@ -62,127 +64,52 @@ export default function DashboardPage() {
 
       {/* Bulls List */}
       <div className="space-y-4">
-         {/* Bull Card 1 */}
-         <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-            <CardContent className="p-0 flex items-stretch">
-               {/* Checkbox Strip */}
-               <div className="w-12 bg-white flex items-center justify-center border-r border-gray-50">
-                  <div className="h-4 w-4 rounded border border-gray-300 ring-offset-2 ring-violet-500"></div>
-               </div>
-               
-               {/* Rank Badge */}
-               <div className="w-16 flex items-center justify-center text-xl font-bold text-gray-400">
-                  #1
-               </div>
-
-               {/* Image */}
-               <div className="w-24 py-4">
-                  <div className="h-16 w-16 rounded-xl bg-gray-200 overflow-hidden relative">
-                     {/* Placeholder img */}
-                     <img src="https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop" className="h-full w-full object-cover" />
-                  </div>
-               </div>
-
-               {/* Info */}
-               <div className="flex-1 py-4 flex flex-col justify-center">
-                  <h3 className="font-bold text-gray-900 text-lg">Toro #992</h3>
-                  <p className="text-gray-500 text-sm">Angus • 36 meses</p>
-                  <div className="flex gap-2 mt-2">
-                     <Badge variant="outline-green" className="text-[10px] h-5 rounded px-2 font-medium bg-white">Propio</Badge>
-                     <Badge variant="outline-purple" className="text-[10px] h-5 rounded px-2 font-medium bg-white">Para vaquillona</Badge>
-                  </div>
-               </div>
-
-               {/* Score */}
-               <div className="w-48 py-4 flex flex-col justify-center border-l border-gray-50 px-6">
-                  <div className="flex justify-between items-end mb-1">
-                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Bull Score</span>
-                     <span className="text-xl font-bold text-gray-900">0.9</span>
-                  </div>
-                  <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                     <div className="h-full bg-emerald-500 w-[90%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">Top 1% de facilidad de parto</p>
-               </div>
-
-               {/* Radar Placeholder */}
-               <div className="w-32 py-4 flex items-center justify-center border-l border-gray-50">
-                  <div className="h-16 w-16 relative opacity-70">
-                     {/* CSS-only Hexagon for representation */}
-                      <svg viewBox="0 0 100 100" className="w-full h-full text-emerald-500 fill-none stroke-current stroke-2">
-                        <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
-                        <path d="M50 20 L80 35 L80 65 L50 80 L20 65 L20 35 Z" fill="rgba(16,185,129,0.1)" />
-                      </svg>
-                  </div>
-               </div>
-
-               {/* Actions */}
-               <div className="w-20 flex flex-col items-center justify-center gap-2 border-l border-gray-50">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700">
-                     <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200">
-                     <Heart className="h-4 w-4" />
-                  </Button>
-               </div>
-            </CardContent>
-         </Card>
-
-         {/* Bull Card 2 */}
-         <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-            <CardContent className="p-0 flex items-stretch">
-               <div className="w-12 bg-white flex items-center justify-center border-r border-gray-50">
-                  <div className="h-4 w-4 rounded border border-gray-300"></div>
-               </div>
-               
-               <div className="w-16 flex items-center justify-center text-xl font-bold text-gray-400">#2</div>
-               
-               <div className="w-24 py-4">
-                  <div className="h-16 w-16 rounded-xl bg-gray-200 overflow-hidden">
-                     <img src="https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=2670&auto=format&fit=crop" className="h-full w-full object-cover" />
-                  </div>
-               </div>
-
-               <div className="flex-1 py-4 flex flex-col justify-center">
-                  <h3 className="font-bold text-gray-900 text-lg">Toro #442</h3>
-                  <p className="text-gray-500 text-sm">Angus • 36 meses</p>
-                  <div className="flex gap-2 mt-2">
-                     <Badge variant="outline-green" className="text-[10px] h-5 rounded px-2 font-medium bg-white">Catálogo</Badge>
-                     <Badge variant="outline-blue" className="text-[10px] h-5 rounded px-2 font-medium bg-white">Para vaca</Badge>
-                  </div>
-               </div>
-
-               <div className="w-48 py-4 flex flex-col justify-center border-l border-gray-50 px-6">
-                  <div className="flex justify-between items-end mb-1">
-                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Bull Score</span>
-                     <span className="text-xl font-bold text-gray-900">0.9</span>
-                  </div>
-                  <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                     <div className="h-full bg-emerald-500 w-[90%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">Top 1% de facilidad de parto</p>
-               </div>
-               
-               <div className="w-32 py-4 flex items-center justify-center border-l border-gray-50">
-                   <div className="h-16 w-16 relative opacity-70">
-                      <svg viewBox="0 0 100 100" className="w-full h-full text-emerald-500 fill-none stroke-current stroke-2">
-                        <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
-                        <path d="M50 20 L80 35 L80 65 L50 80 L20 65 L20 35 Z" fill="rgba(16,185,129,0.1)" />
-                      </svg>
-                  </div>
-               </div>
-
-               <div className="w-20 flex flex-col items-center justify-center gap-2 border-l border-gray-50">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700">
-                     <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200">
-                     <Heart className="h-4 w-4" />
-                  </Button>
-               </div>
-            </CardContent>
-         </Card>
+        {bulls.length > 0 ? (
+          bulls.map((bull, index) => (
+            <BullCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
+          ))
+        ) : (
+          <div className="text-center py-20 text-gray-500">
+            No se encontraron resultados
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+// Fetch data on server
+async function getData() {
+  // Mock data fallback if API fails (for development safety)
+  try {
+     const res = await getBulls();
+     return res.data;
+  } catch (e) {
+     console.warn("Backend unavailable, using mock fallback temporarily.");
+     return [
+        {
+           id: "1",
+           caravana: "Toro #992",
+           name: "Black Diamond",
+           breed: "Angus",
+           birthDate: "2021-01-01",
+           source: "PROPIO",
+           bullScore: 9.2,
+           photoUrl: "https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop",
+           characteristics: [{ name: "Facilidad parto", value: 1 }],
+        },
+        {
+           id: "2",
+           caravana: "Toro #442",
+           name: "Red Thunder",
+           breed: "Angus Colorado",
+           birthDate: "2021-05-15",
+           source: "CATALOGO",
+           bullScore: 8.5,
+           photoUrl: "https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=2670&auto=format&fit=crop",
+           characteristics: [{ name: "Crecimiento", value: 2 }],
+        }
+     ] as any[];
+  }
+}
+
