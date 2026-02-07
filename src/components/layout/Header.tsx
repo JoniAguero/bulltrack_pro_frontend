@@ -14,24 +14,25 @@ export function Header() {
 
       {/* Right: User & Actions */}
       <div className="flex items-center gap-4">
-        <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/50 bg-[#1c2321] text-emerald-500 hover:bg-emerald-500/10 transition-colors">
-          <svg 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="h-4 w-4"
-          >
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <span className="text-sm font-medium">La soledad</span>
-          <ChevronDown className="h-4 w-4" />
-        </button>
-
+         {/* Location Button */}
+         <div className="flex items-center px-4 py-2 rounded-full bg-[#1F2926] border border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] text-emerald-400 text-sm font-medium cursor-pointer hover:bg-[#25332f] hover:border-emerald-400 transition-all group">
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              className="h-4 w-4 mr-2 text-emerald-400"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            La soledad
+            <ChevronDown className="h-4 w-4 ml-2 group-hover:translate-y-0.5 transition-transform" />
+         </div>
          
+         {/* Profile Photo */}
          <div className="h-10 w-10 rounded-full bg-gray-600 overflow-hidden border-2 border-[#111714] ring-2 ring-emerald-500 relative cursor-pointer hover:ring-emerald-400 transition-all">
             <img 
                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" 

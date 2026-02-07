@@ -7,11 +7,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 // Helper for the Card style seen in screenshots
-const FilterCard = ({ children, className, onClick }: { children: React.ReactNode, className?: string, onClick?: () => void }) => (
+const FilterCard = ({ children, className, onClick, isSelected }: { children: React.ReactNode, className?: string, onClick?: () => void, isSelected?: boolean }) => (
   <div 
      onClick={onClick}
      className={cn(
-       "bg-[#152B1E] p-4 rounded-xl flex items-center justify-between cursor-pointer border border-transparent hover:border-[#36E27B]/30 transition-all", 
+       "bg-[#152B1E] p-4 rounded-xl flex items-center justify-between cursor-pointer border transition-all", 
+       isSelected ? "border-[#36E27B]" : "border-transparent",
        className
      )}
   >
@@ -19,10 +20,9 @@ const FilterCard = ({ children, className, onClick }: { children: React.ReactNod
   </div>
 );
 
-// Helper for the Checkbox square
 const Checkbox = ({ checked }: { checked: boolean }) => (
   <div className={cn(
-     "h-6 w-6 rounded-lg flex items-center justify-center transition-colors border-2",
+     "h-6 w-6 rounded-[5px] flex items-center justify-center transition-colors border-2",
      checked ? "bg-[#36E27B] border-[#36E27B] text-black shadow-sm" : "bg-transparent border-[#36E27B]/50"
   )}>
       {checked && <Check className="h-4 w-4 stroke-[3]" />}
@@ -91,25 +91,25 @@ function SidebarContent({ className }: { className?: string }) {
                 Origen
              </label>
              {/* Todos */}
-             <FilterCard onClick={() => handleOriginChange("all")}>
+             <FilterCard onClick={() => handleOriginChange("all")} isSelected={!searchParams.get("source") && !isFavoritesActive}>
                  <span className="text-sm font-medium text-gray-200">Todos</span>
                  <Checkbox checked={!searchParams.get("source") && !isFavoritesActive} />
              </FilterCard>
 
              {/* Toros propios */}
-             <FilterCard onClick={() => handleOriginChange("source", "PROPIO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "PROPIO")} isSelected={isActive("source", "PROPIO")}>
                  <span className="text-sm font-medium text-gray-200">Toros propios</span>
                  <Checkbox checked={isActive("source", "PROPIO")} />
              </FilterCard>
              
              {/* Catálogo */}
-             <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")} isSelected={isActive("source", "CATALOGO")}>
                  <span className="text-sm font-medium text-gray-200">Catálogo</span>
                  <Checkbox checked={isActive("source", "CATALOGO")} />
              </FilterCard>
 
              {/* Favoritos */}
-             <FilterCard onClick={() => handleOriginChange("favorites")}>
+             <FilterCard onClick={() => handleOriginChange("favorites")} isSelected={isFavoritesActive}>
                  <span className="text-sm font-medium text-gray-200">Favoritos</span>
                  <Checkbox checked={isFavoritesActive} />
              </FilterCard>
@@ -157,7 +157,7 @@ function SidebarContent({ className }: { className?: string }) {
       </div>
 
        {/* Widget: Objetivo Actual (Pinned at bottom) */}
-       <div className="mt-8 pt-6 border-t border-gray-800">
+       <div className="mt-8 pt-6">
           <div className="p-5 rounded-2xl bg-[#152B1E] space-y-4 border border-[#1f2b28]">
             <h4 className="text-white font-bold text-sm">Objetivo actual</h4>
             <p className="text-sm text-gray-400 leading-relaxed">
