@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { Settings, ChevronDown, Check, ArrowLeft } from "lucide-react";
+import { ChevronDown, Check, ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -80,42 +80,36 @@ function SidebarContent({ className }: { className?: string }) {
         <span className="text-xl font-bold tracking-tight">Bulltrack</span>
       </div>
 
-      {/* Main Navigation (Scrollable) */}
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 flex flex-col gap-6">
         
-        {/* Section: Filtros Activos (Actually Filter Groups) */}
-        
-        {/* Group: Origen */}
         <div className="space-y-3">
              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1">
                 Origen
              </label>
-             {/* Todos */}
+
              <FilterCard onClick={() => handleOriginChange("all")} isSelected={!searchParams.get("source") && !isFavoritesActive}>
                  <span className="text-sm font-medium text-gray-200">Todos</span>
                  <Checkbox checked={!searchParams.get("source") && !isFavoritesActive} />
              </FilterCard>
 
-             {/* Toros propios */}
              <FilterCard onClick={() => handleOriginChange("source", "PROPIO")} isSelected={isActive("source", "PROPIO")}>
                  <span className="text-sm font-medium text-gray-200">Toros propios</span>
                  <Checkbox checked={isActive("source", "PROPIO")} />
              </FilterCard>
-             
-             {/* Catálogo */}
+              
              <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")} isSelected={isActive("source", "CATALOGO")}>
                  <span className="text-sm font-medium text-gray-200">Catálogo</span>
                  <Checkbox checked={isActive("source", "CATALOGO")} />
              </FilterCard>
-
-             {/* Favoritos */}
+ 
              <FilterCard onClick={() => handleOriginChange("favorites")} isSelected={isFavoritesActive}>
                  <span className="text-sm font-medium text-gray-200">Favoritos</span>
                  <Checkbox checked={isFavoritesActive} />
              </FilterCard>
         </div>
-
-        {/* Group: Pelaje / Productivos */}
+         
+      <div className="h-px bg-white/30 w-full" />
+ 
         <div className="space-y-3">
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1">
              Filtros Productivos
@@ -155,9 +149,10 @@ function SidebarContent({ className }: { className?: string }) {
             </FilterCard>
         </div>
       </div>
+      
+      <div className="h-px bg-white/30 w-full my-6" /> 
 
-       {/* Widget: Objetivo Actual (Pinned at bottom) */}
-       <div className="mt-8 pt-6">
+       <div>
           <div className="p-5 rounded-2xl bg-[#152B1E] space-y-4 border border-[#1f2b28]">
             <h4 className="text-white font-bold text-sm">Objetivo actual</h4>
             <p className="text-sm text-gray-400 leading-relaxed">

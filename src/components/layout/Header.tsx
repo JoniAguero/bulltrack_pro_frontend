@@ -1,8 +1,6 @@
 "use client";
 
-import { Bell, Search, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { ChevronDown } from "lucide-react";
 
 export function Header() {
   return (

@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { Search, Download, List, LayoutGrid, Info, ChevronDown } from "lucide-react";
 import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
