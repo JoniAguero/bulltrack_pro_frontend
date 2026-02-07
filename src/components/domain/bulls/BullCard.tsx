@@ -39,9 +39,9 @@ export function BullCard({ bull }: BullCardProps) {
 
         {/* 3. Info */}
         <div className="flex-1 py-3 pr-6 flex flex-col justify-center min-w-[200px]">
-          <h3 className="font-bold text-gray-900 text-xl leading-tight mb-1">{bull.caravana || bull.name}</h3>
+          <h3 className="font-bold text-gray-900 text-xl leading-tight mb-1">Toro # {bull.caravana}</h3>
           <p className="text-gray-500 text-sm mb-2">
-             {bull.breed} • {bull.birthDate ? "36 meses" : "N/A"}
+             {bull.breed} • {bull.birthDate ? `${bull.birthDate} meses` : "N/A"}
           </p>
           <div className="flex gap-2">
              <span className={cn(
@@ -70,11 +70,11 @@ export function BullCard({ bull }: BullCardProps) {
           <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden mb-1">
             <div 
               className="h-full bg-emerald-500 rounded-full"
-              style={{ width: `${Math.min(bull.bullScore * 10, 100)}%` }} 
+              style={{ width: `${Math.min(bull.bullScore, 100)}%` }} 
             />
           </div>
           <p className="text-xs text-gray-500 truncate mt-1">
-             Top 1% de facilidad de parto
+             {bull.characteristics?.[0]?.name || "Desempeño destacado"}
           </p>
         </div>
 

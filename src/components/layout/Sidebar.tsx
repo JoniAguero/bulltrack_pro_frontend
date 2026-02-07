@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { ChevronDown, Check, ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 // Helper for the Card style seen in screenshots
 const FilterCard = ({ children, className, onClick, isSelected }: { children: React.ReactNode, className?: string, onClick?: () => void, isSelected?: boolean }) => (
@@ -41,18 +41,20 @@ function SidebarContent({ className }: { className?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [isPelajeOpen, setIsPelajeOpen] = useState(false);
+
   const handleOriginChange = (mode: 'source' | 'favorites' | 'all', value?: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (mode === 'all') {
-      params.delete("source");
+      params.delete("origen");
       params.delete("favorites");
     } 
     else if (mode === 'source' && value) {
-      if (searchParams.get("source") === value) {
-         params.delete("source");
+      if (searchParams.get("origen") === value) {
+         params.delete("origen");
       } else {
-         params.set("source", value);
+         params.set("origen", value);
          params.delete("favorites");
       }
     }
@@ -61,11 +63,26 @@ function SidebarContent({ className }: { className?: string }) {
           params.delete("favorites");
        } else {
           params.set("favorites", "true");
-          params.delete("source");
+          params.delete("origen");
        }
     }
     router.replace(`?${params.toString()}`);
   };
+
+  const handleToggleFilter = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (searchParams.get(key) === value) {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+    router.replace(`?${params.toString()}`);
+  };
+
+  const currentPelaje = searchParams.get("pelaje");
+  const pelajeLabel = currentPelaje 
+    ? (currentPelaje.charAt(0).toUpperCase() + currentPelaje.slice(1)) 
+    : "Todos";
 
   const isActive = (key: string, value: string) => searchParams.get(key) === value;
   const isFavoritesActive = searchParams.get("favorites") === "true";
@@ -92,19 +109,19 @@ function SidebarContent({ className }: { className?: string }) {
                 Origen
              </label>
 
-             <FilterCard onClick={() => handleOriginChange("all")} isSelected={!searchParams.get("source") && !isFavoritesActive}>
+             <FilterCard onClick={() => handleOriginChange("all")} isSelected={!searchParams.get("origen") && !isFavoritesActive}>
                  <span className="text-sm font-medium text-gray-200">Todos</span>
-                 <Checkbox checked={!searchParams.get("source") && !isFavoritesActive} />
+                 <Checkbox checked={!searchParams.get("origen") && !isFavoritesActive} />
              </FilterCard>
 
-             <FilterCard onClick={() => handleOriginChange("source", "PROPIO")} isSelected={isActive("source", "PROPIO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "PROPIO")} isSelected={isActive("origen", "PROPIO")}>
                  <span className="text-sm font-medium text-gray-200">Toros propios</span>
-                 <Checkbox checked={isActive("source", "PROPIO")} />
+                 <Checkbox checked={isActive("origen", "PROPIO")} />
              </FilterCard>
               
-             <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")} isSelected={isActive("source", "CATALOGO")}>
+             <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")} isSelected={isActive("origen", "CATALOGO")}>
                  <span className="text-sm font-medium text-gray-200">Catálogo</span>
-                 <Checkbox checked={isActive("source", "CATALOGO")} />
+                 <Checkbox checked={isActive("origen", "CATALOGO")} />
              </FilterCard>
  
              <FilterCard onClick={() => handleOriginChange("favorites")} isSelected={isFavoritesActive}>
@@ -119,26 +136,69 @@ function SidebarContent({ className }: { className?: string }) {
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1">
              Filtros Productivos
           </label>
-          <FilterCard>
+          <FilterCard 
+            onClick={() => handleToggleFilter("uso", "vaquillona")}
+            isSelected={isActive("uso", "vaquillona")}
+          >
              <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-200">Para vaquillona</span>
                 <span className="text-xs text-gray-500 mt-0.5">Facilidad de parto</span>
              </div>
              {/* Toggle Switch */}
-             <div className="w-12 h-6 bg-[#36E27B] rounded-full relative cursor-pointer">
-                <div className="absolute right-0.5 top-0.5 w-5 h-5 bg-black rounded-full shadow-sm" />
+             <div className={cn(
+               "w-12 h-6 rounded-full relative cursor-pointer transition-colors",
+               isActive("uso", "vaquillona") ? "bg-[#36E27B]" : "bg-gray-800"
+             )}>
+                <div className={cn(
+                   "absolute top-0.5 w-5 h-5 bg-black rounded-full shadow-sm transition-all",
+                   isActive("uso", "vaquillona") ? "right-0.5" : "left-0.5"
+                )} />
              </div>
           </FilterCard>
 
           <label className="text-xs font-bold text-gray-400 block px-1 pt-2">
              Pelaje
           </label>
-          <FilterCard>
-              <div className="flex flex-col">
-                 <span className="text-sm font-medium text-gray-200">Todos</span>
+          
+          <div className="relative">
+            <FilterCard 
+              onClick={() => setIsPelajeOpen(!isPelajeOpen)}
+              isSelected={isPelajeOpen || !!currentPelaje}
+            >
+                <span className="text-sm font-medium text-gray-200">{pelajeLabel}</span>
+                <ChevronDown className={cn("h-5 w-5 text-[#36E27B] transition-transform", isPelajeOpen && "rotate-180")} />
+            </FilterCard>
+
+            {isPelajeOpen && (
+              <div className="absolute z-10 w-full mt-2 py-2 bg-[#1a2e22] border border-[#2a3e32] rounded-xl shadow-xl">
+                 {[
+                   { id: "all", label: "Todos", value: "" },
+                   { id: "negro", label: "Negro", value: "negro" },
+                   { id: "colorado", label: "Colorado", value: "colorado" }
+                 ].map((opt) => (
+                   <div 
+                     key={opt.id}
+                     className={cn(
+                       "px-4 py-2 text-sm cursor-pointer hover:bg-[#36E27B]/10 transition-colors",
+                       (opt.id === "all" ? !currentPelaje : currentPelaje === opt.value) ? "text-[#36E27B] font-bold" : "text-gray-300"
+                     )}
+                     onClick={() => {
+                        if (opt.id === "all") {
+                          const params = new URLSearchParams(searchParams.toString());
+                          params.delete("pelaje");
+                          router.replace(`?${params.toString()}`);
+                        } else {
+                          handleToggleFilter("pelaje", opt.value);
+                        }
+                        setIsPelajeOpen(false);
+                     }}
+                   >
+                     {opt.label}
+                   </div>
+                 ))}
               </div>
-              <ChevronDown className="h-5 w-5 text-[#36E27B]" />
-          </FilterCard>
+            )}
+          </div>
         </div>
 
          {/* Group: Ordenamiento */}

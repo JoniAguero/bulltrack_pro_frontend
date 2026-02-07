@@ -4,14 +4,17 @@ import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
 
 interface DashboardPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const source = typeof searchParams.source === "string" ? searchParams.source : undefined;
-  const favorites = typeof searchParams.favorites === "string" ? searchParams.favorites : undefined;
+  const params = await searchParams;
+  const origen = typeof params.origen === "string" ? params.origen : undefined;
+  const favorites = typeof params.favorites === "string" ? params.favorites : undefined;
+  const uso = typeof params.uso === "string" ? params.uso : undefined;
+  const pelaje = typeof params.pelaje === "string" ? params.pelaje : undefined;
   
-  const bulls = await getData({ source, favorites });
+  const bulls = await getData({ origen, favorites, uso, pelaje });
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
@@ -84,60 +87,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 }
 
 // Fetch data on server
-async function getData(filters?: { source?: string; favorites?: string }) {
-  // Mock data fallback if API fails (for development safety)
+async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string }) {
   try {
      const res = await getBulls(1, 10, filters);
      return res.data;
   } catch (e) {
-     console.warn("Backend unavailable, using mock fallback temporarily.");
-     
-     // Simple mock filtering
-     let data = [
-        {
-           id: "1",
-           caravana: "Toro #992",
-           name: "Black Diamond",
-           breed: "Angus",
-           birthDate: "2021-01-01",
-           source: "PROPIO",
-           bullScore: 0.9,
-           photoUrl: "https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop",
-           characteristics: [{ name: "Facilidad parto", value: 1 }],
-           isFavorite: true,
-        },
-        {
-           id: "2",
-           caravana: "Toro #442",
-           name: "Red Thunder",
-           breed: "Angus Colorado",
-           birthDate: "2021-05-15",
-           source: "CATALOGO",
-           bullScore: 0.9,
-           photoUrl: "https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=2670&auto=format&fit=crop",
-           characteristics: [{ name: "Crecimiento", value: 2 }],
-        },
-        {
-           id: "3",
-           caravana: "Toro #992",
-           name: "Masterpiece",
-           breed: "Angus",
-           birthDate: "2021-05-15",
-           source: "PROPIO",
-           bullScore: 0.9,
-           photoUrl: "https://images.unsplash.com/photo-1594916895318-7b9bc9178007?q=80&w=2670&auto=format&fit=crop",
-           characteristics: [{ name: "Facilidad parto", value: 2 }],
-        }
-     ] as any[];
-
-     if (filters?.source) {
-       data = data.filter(bull => bull.source === filters.source);
-     }
-
-     if (filters?.favorites === "true") {
-       data = data.filter(bull => bull.isFavorite);
-     }
-     
-     return data;
+     console.error("Backend Error:", e);
+     // We throw the error to let Next.js handle it (error.tsx) or show empty state
+     // For now, let's keep it simple and throw to be aware of failures
+     throw new Error("No se pudo conectar con el servidor. Por favor, asegúrate de que el backend esté corriendo.");
   }
 }
