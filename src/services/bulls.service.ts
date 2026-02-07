@@ -2,11 +2,21 @@ import { BullsResponse } from "@/types/bulls";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-export async function getBulls(page = 1, limit = 10): Promise<BullsResponse> {
+export async function getBulls(
+    page = 1,
+    limit = 10,
+    filters?: {
+        source?: string;
+        sort?: string;
+    }
+): Promise<BullsResponse> {
     // Construct URL with query params
     const url = new URL(`${API_URL}/bulls`);
     url.searchParams.append("page", page.toString());
     url.searchParams.append("limit", limit.toString());
+
+    if (filters?.source) url.searchParams.append("source", filters.source);
+    if (filters?.sort) url.searchParams.append("sort", filters.sort);
 
     try {
         const res = await fetch(url.toString(), {

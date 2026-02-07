@@ -2,31 +2,33 @@ import { Bull } from "@/types/bulls";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Eye, Heart } from "lucide-react";
+import { Eye } from "lucide-react";
+import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
 
 interface BullCardProps {
-  bull: Bull & { rank: number }; // Inject rank for display
+  bull: Bull & { rank: number; isFavorite?: boolean }; // Inject rank for display
 }
 
 export function BullCard({ bull }: BullCardProps) {
   return (
-    <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-      <CardContent className="p-0 flex items-stretch">
+    <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow bg-white">
+      <CardContent className="p-0 flex items-center h-28">
         
-        {/* Checkbox Strip */}
-        <div className="w-12 bg-white flex items-center justify-center border-r border-gray-50">
-          <div className="h-4 w-4 rounded border border-gray-300 ring-offset-2 ring-violet-500 cursor-pointer hover:border-emerald-500" />
+        {/* 1. Selection & Rank */}
+        <div className="pl-6 pr-4 flex items-center gap-4">
+           {/* Selection Checkbox */}
+           <div className="h-5 w-5 rounded border border-blue-500 flex items-center justify-center cursor-pointer">
+              {/* Checked state would go here */}
+           </div>
+           
+           {/* Rank */}
+           <span className="text-3xl font-bold text-gray-700 w-10">#{bull.rank}</span>
         </div>
 
-        {/* Rank Badge */}
-        <div className="w-16 flex items-center justify-center text-xl font-bold text-gray-400">
-          #{bull.rank}
-        </div>
-
-        {/* Image */}
-        <div className="w-24 py-4">
-          <div className="h-16 w-16 rounded-xl bg-gray-200 overflow-hidden relative">
+        {/* 2. Image */}
+        <div className="py-3 pr-4">
+          <div className="h-20 w-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
             <img 
               src={bull.photoUrl || "https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop"} 
               alt={bull.name} 
@@ -35,61 +37,71 @@ export function BullCard({ bull }: BullCardProps) {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="flex-1 py-4 flex flex-col justify-center gap-1">
-          <h3 className="font-bold text-gray-900 text-lg">{bull.caravana || bull.name}</h3>
-          <p className="text-gray-500 text-sm">
-             {bull.breed} • {bull.birthDate ? "36 meses" : "N/A"} {/* Todo: calc age */}
+        {/* 3. Info */}
+        <div className="flex-1 py-3 pr-6 flex flex-col justify-center min-w-[200px]">
+          <h3 className="font-bold text-gray-900 text-xl leading-tight mb-1">{bull.caravana || bull.name}</h3>
+          <p className="text-gray-500 text-sm mb-2">
+             {bull.breed} • {bull.birthDate ? "36 meses" : "N/A"}
           </p>
-          <div className="flex gap-2 mt-1">
-             <Badge variant="outline-green" className="text-[10px] h-5 rounded px-2 font-medium bg-white">
+          <div className="flex gap-2">
+             <span className={cn(
+                "text-[10px] px-2 py-0.5 rounded border font-medium",
+                bull.source === 'PROPIO' ? "border-emerald-500 text-emerald-600 bg-emerald-50" : "border-emerald-200 text-emerald-600 bg-emerald-50"
+             )}>
                 {bull.source === 'PROPIO' ? 'Propio' : 'Catálogo'}
-             </Badge>
-             {/* Render traits as badges if available, limit to 1 for space */}
-             {bull.characteristics?.slice(0, 1).map((char, i) => (
-                <Badge key={i} variant="outline-purple" className="text-[10px] h-5 rounded px-2 font-medium bg-white">
+             </span>
+             {bull.characteristics?.slice(0, 2).map((char, i) => (
+                <span key={i} className="text-[10px] px-2 py-0.5 rounded border border-blue-200 text-blue-600 bg-blue-50 font-medium">
                    {char.name}
-                </Badge>
+                </span>
              ))}
           </div>
         </div>
 
-        {/* Score */}
-        <div className="w-48 py-4 flex flex-col justify-center border-l border-gray-50 px-6">
+        {/* Vertical Divider */}
+        <div className="h-16 w-px bg-gray-200 mx-2" />
+
+        {/* 4. Score */}
+        <div className="w-[300px] px-6 py-3 flex flex-col justify-center">
           <div className="flex justify-between items-end mb-1">
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Bull Score</span>
-            <span className="text-xl font-bold text-gray-900">{bull.bullScore.toFixed(1)}</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">BULL SCORE</span>
+            <span className="text-2xl font-medium text-gray-900">{bull.bullScore.toFixed(1)}</span>
           </div>
-          <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden mb-1">
             <div 
-              className="h-full bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-all duration-500"
-              style={{ width: `${Math.min(bull.bullScore * 10, 100)}%` }} // Scaling 0-10 score to %
+              className="h-full bg-emerald-500 rounded-full"
+              style={{ width: `${Math.min(bull.bullScore * 10, 100)}%` }} 
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2 truncate">
+          <p className="text-xs text-gray-500 truncate mt-1">
              Top 1% de facilidad de parto
           </p>
         </div>
 
-        {/* Radar Placeholder */}
-        <div className="w-32 py-4 flex items-center justify-center border-l border-gray-50">
-          <div className="h-16 w-16 relative opacity-70">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-emerald-500 fill-none stroke-current stroke-2">
-               <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
-               <path d="M50 20 L80 35 L80 65 L50 80 L20 65 L20 35 Z" fill="rgba(16,185,129,0.1)" />
-            </svg>
-          </div>
+        {/* 5. Radar Chart (Visual Approximation) */}
+        <div className="w-24 h-24 flex items-center justify-center p-2 relative">
+             <div className="absolute inset-0 flex items-center justify-center">
+                {/* Background Pentagon */}
+                <svg viewBox="0 0 100 100" className="w-20 h-20 text-gray-100 fill-current">
+                   <polygon points="50,5 95,35 75,90 25,90 5,35" />
+                </svg>
+             </div>
+             <div className="absolute inset-0 flex items-center justify-center">
+                {/* Data Pentagon (Green Outline) */}
+                <svg viewBox="0 0 100 100" className="w-20 h-20 text-emerald-400 fill-none stroke-current stroke-2 drop-shadow-sm">
+                   <polygon points="50,15 85,40 70,80 30,80 15,40" fill="rgba(52, 211, 153, 0.1)" />
+                </svg>
+             </div>
         </div>
 
-         {/* Actions */}
-         <div className="w-20 flex flex-col items-center justify-center gap-2 border-l border-gray-50 pr-4">
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700">
-               <Eye className="h-4 w-4" />
+         {/* 6. Actions */}
+         <div className="w-16 flex flex-col items-center justify-center gap-2 pr-4 pl-2">
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-900 text-white hover:bg-gray-800 shadow-sm p-1.5">
+               <Eye className="h-full w-full" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200">
-               <Heart className="h-4 w-4" />
-            </Button>
+            <FavoriteButton bullId={bull.id} initialIsFavorite={bull.isFavorite || false} />
          </div>
+         
       </CardContent>
     </Card>
   );

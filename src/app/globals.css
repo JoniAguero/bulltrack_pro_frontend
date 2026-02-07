@@ -70,6 +70,18 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* Custom Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
