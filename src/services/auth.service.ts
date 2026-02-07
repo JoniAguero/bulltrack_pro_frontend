@@ -10,18 +10,6 @@ export interface LoginResponse {
 }
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
-    // MOCK CREDENTIALS FOR DEMO/DEV
-    if (email === "admin@bulltrack.com" && password === "admin123") {
-        return {
-            access_token: "mock_jwt_token_for_demo_purposes",
-            user: {
-                id: "1",
-                email: "admin@bulltrack.com",
-                name: "Admin User"
-            }
-        };
-    }
-
     const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {

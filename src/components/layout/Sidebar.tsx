@@ -2,10 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { ChevronDown, Check, ArrowLeft } from "lucide-react";
+import { ChevronDown, Check, ArrowLeft, LogOut } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { t } from "@/lib/i18n";
+import { logoutAction } from "@/actions/auth.actions";
 
 // Helper for the Card style seen in screenshots
 const FilterCard = ({ children, className, onClick, isSelected }: { children: React.ReactNode, className?: string, onClick?: () => void, isSelected?: boolean }) => (
@@ -232,6 +233,17 @@ function SidebarContent({ className }: { className?: string }) {
                <span className="text-sm font-medium">{t("ui", "editCriteria")}</span>
             </Button>
           </div>
+        </div>
+
+        <div className="mt-auto pt-6">
+           <Button 
+              variant="ghost" 
+              onClick={() => logoutAction()}
+              className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-950/30 gap-3 px-4 h-12 rounded-xl transition-all"
+           >
+              <LogOut className="h-5 w-5" />
+              <span className="font-semibold text-sm">Cerrar sesión</span>
+           </Button>
         </div>
     </div>
   );

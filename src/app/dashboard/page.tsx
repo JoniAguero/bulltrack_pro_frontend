@@ -6,6 +6,8 @@ import { SearchInput } from "@/components/domain/bulls/SearchInput";
 
 import { t } from "@/lib/i18n";
 
+import { cookies } from "next/headers";
+
 interface DashboardPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
@@ -17,8 +19,10 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const uso = typeof params.uso === "string" ? params.uso : undefined;
   const pelaje = typeof params.pelaje === "string" ? params.pelaje : undefined;
   const search = typeof params.search === "string" ? params.search : undefined;
+
+  const token = (await cookies()).get("session_token")?.value;
   
-  const bulls = await getData({ origen, favorites, uso, pelaje, search });
+  const bulls = await getData({ origen, favorites, uso, pelaje, search }, token);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
@@ -82,9 +86,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 }
 
 // Fetch data on server
-async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string; search?: string }) {
+async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string; search?: string }, token?: string) {
   try {
-     const res = await getBulls(1, 10, filters);
+     const res = await getBulls(1, 10, filters, token);
      return res.data;
   } catch (e) {
      console.error("Backend Error:", e);

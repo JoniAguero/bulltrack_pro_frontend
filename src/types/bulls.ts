@@ -16,6 +16,7 @@ export interface Bull {
     // Helper for UI tags
     primaryTag?: string; // "Propio"
     secondaryTags?: string[]; // ["Para vaquillona"]
+    isFavorite: boolean;
 }
 
 export interface BullsResponse {

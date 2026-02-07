@@ -12,7 +12,8 @@ export async function getBulls(
         search?: string;
         sort?: string;
         favorites?: string;
-    }
+    },
+    token?: string
 ): Promise<BullsResponse> {
     // Construct URL with query params
     const url = new URL(`${API_URL}/bulls`);
@@ -30,6 +31,9 @@ export async function getBulls(
     try {
         const res = await fetch(url.toString(), {
             cache: "no-store",
+            headers: token ? {
+                "Authorization": `Bearer ${token}`
+            } : {}
         });
 
         if (!res.ok) {
