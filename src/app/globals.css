@@ -1,20 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base Colors */
+  --background: #F3F4F6;
+  /* Gray 100 - Main Content BG */
+  --foreground: #111827;
+  /* Gray 900 */
+
+  /* Primary Brand Color (Bulltrack Emerald) */
+  --primary: #10B981;
+  /* Emerald 500 */
+  --primary-foreground: #FFFFFF;
+
+  /* Sidebar Specific */
+  --sidebar: #111827;
+  /* Gray 900 */
+  --sidebar-foreground: #FFFFFF;
+
+  /* Secondary/Accent */
+  --secondary: #E5E7EB;
+  /* Gray 200 */
+  --secondary-foreground: #1F2937;
+  /* Gray 800 */
+
+  /* Surface/Card */
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+
+  /* Borders & Inputs */
+  --border: #D1D5DB;
+  /* Gray 300 */
+  --input: #D1D5DB;
+  --ring: #10B981;
+
+  /* Feedback Colors */
+  --destructive: #EF4444;
+  /* Red 500 */
+  --destructive-foreground: #FFFFFF;
+  --success: #10B981;
+  /* Emerald 500 */
+  --success-foreground: #FFFFFF;
+  --warning: #F59E0B;
+  /* Amber 500 */
+  --warning-foreground: #FFFFFF;
+
+  /* Radii */
+  --radius: 0.75rem;
+  /* More rounded as per screenshot */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
 body {
