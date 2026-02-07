@@ -90,7 +90,7 @@ function SidebarContent({ className }: { className?: string }) {
   const isFavoritesActive = searchParams.get("favorites") === "true";
 
   return (
-    <div className={cn("flex flex-col h-screen w-80 bg-[#111714] text-white p-6 border-none overflow-y-auto overflow-x-hidden no-scrollbar", className)}>
+    <div className={cn("hidden lg:flex flex-col h-screen w-80 bg-[#111714] text-white p-6 border-none overflow-y-auto overflow-x-hidden no-scrollbar shadow-2xl lg:shadow-none", className)}>
       {/* Brand */}
       <div className="flex items-center gap-3 mb-8 px-1">
         <div className="h-8 w-8 rounded-full bg-[#36E27B] flex items-center justify-center text-black font-bold">
