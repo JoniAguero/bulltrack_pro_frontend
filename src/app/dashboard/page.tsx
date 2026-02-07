@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Search, Download, List, LayoutGrid, Info, ChevronDown } from "lucide-react";
 import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
+import { SearchInput } from "@/components/domain/bulls/SearchInput";
 
 import { t } from "@/lib/i18n";
 
@@ -15,8 +16,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const favorites = typeof params.favorites === "string" ? params.favorites : undefined;
   const uso = typeof params.uso === "string" ? params.uso : undefined;
   const pelaje = typeof params.pelaje === "string" ? params.pelaje : undefined;
+  const search = typeof params.search === "string" ? params.search : undefined;
   
-  const bulls = await getData({ origen, favorites, uso, pelaje });
+  const bulls = await getData({ origen, favorites, uso, pelaje, search });
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
@@ -49,14 +51,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
       {/* 3. Search & Toolbar */}
       <div className="flex items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm">
-         <div className="relative flex-1 max-w-md">
-             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-             <input 
-               type="text" 
-               placeholder={t("ui", "searchPlaceholder")} 
-               className="w-full pl-10 pr-4 py-2 text-sm focus:outline-none placeholder:text-gray-400 border-none ring-0 outline-none"
-             />
-         </div>
+         <SearchInput placeholder={t("ui", "searchPlaceholder")} />
          
          <div className="flex items-center gap-6 pr-2">
             <span className="font-bold text-gray-900 text-lg">{bulls.length} <span className="font-normal text-gray-500 text-base">{t("ui", "results")}</span></span>
@@ -89,7 +84,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 }
 
 // Fetch data on server
-async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string }) {
+async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string; search?: string }) {
   try {
      const res = await getBulls(1, 10, filters);
      return res.data;

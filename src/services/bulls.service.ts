@@ -9,6 +9,7 @@ export async function getBulls(
         origen?: string;
         uso?: string;
         pelaje?: string;
+        search?: string;
         sort?: string;
         favorites?: string;
     }
@@ -21,6 +22,7 @@ export async function getBulls(
     if (filters?.origen) url.searchParams.append("origen", filters.origen.toLowerCase());
     if (filters?.uso) url.searchParams.append("uso", filters.uso.toLowerCase());
     if (filters?.pelaje) url.searchParams.append("pelaje", filters.pelaje.toLowerCase());
+    if (filters?.search) url.searchParams.append("search", filters.search);
     if (filters?.favorites) url.searchParams.append("favorites", filters.favorites);
 
     console.log("Fetching bulls from:", url.toString());
