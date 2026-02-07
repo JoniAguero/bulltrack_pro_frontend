@@ -147,12 +147,12 @@ function SidebarContent({ className }: { className?: string }) {
              </div>
              {/* Toggle Switch */}
              <div className={cn(
-               "w-12 h-6 rounded-full relative cursor-pointer transition-colors",
-               isActive("uso", "vaquillona") ? "bg-[#36E27B]" : "bg-gray-800"
+               "w-12 h-6 rounded-full relative cursor-pointer transition-colors border border-[#36E27B]/30",
+               isActive("uso", "vaquillona") ? "bg-[#36E27B]" : "bg-[#111714]"
              )}>
                 <div className={cn(
-                   "absolute top-0.5 w-5 h-5 bg-black rounded-full shadow-sm transition-all",
-                   isActive("uso", "vaquillona") ? "right-0.5" : "left-0.5"
+                   "absolute top-0.5 w-5 h-5 rounded-full shadow-sm transition-all",
+                   isActive("uso", "vaquillona") ? "right-0.5 bg-[#111714]" : "left-0.5 bg-[#36E27B]"
                 )} />
              </div>
           </FilterCard>

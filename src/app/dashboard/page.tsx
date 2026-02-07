@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/Button";
 import { Search, Download, List, LayoutGrid, Info, ChevronDown } from "lucide-react";
 import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
+import { ExportButton } from "@/components/domain/bulls/ExportButton";
 import { SearchInput } from "@/components/domain/bulls/SearchInput";
 
 import { t } from "@/lib/i18n";
@@ -35,9 +35,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
              Los resultados están ordenados por Bulltrack Score que reflejan tus objetivos de producción
            </p>
          </div>
-         <Button variant="outline" className="bg-gray-900 text-white border-none hover:bg-gray-700 flex gap-2">
-            {t("ui", "export")} <Download className="h-4 w-4" />
-         </Button>
+         <ExportButton data={bulls} />
       </div>
 
       {/* 2. Criterios Banner */}

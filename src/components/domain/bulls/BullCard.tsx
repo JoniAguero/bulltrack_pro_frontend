@@ -1,14 +1,13 @@
 import { Bull } from "@/types/bulls";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button"; 
 import { Eye } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/i18n";
 
 interface BullCardProps {
-  bull: Bull & { rank: number; isFavorite?: boolean }; // Inject rank for display
+  bull: Bull & { rank: number; isFavorite?: boolean }; 
 }
 
 export function BullCard({ bull }: BullCardProps) {

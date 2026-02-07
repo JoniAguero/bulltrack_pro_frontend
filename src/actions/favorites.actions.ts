@@ -12,11 +12,6 @@ export async function toggleFavoriteAction(bullId: string, isFavorite: boolean) 
         return { error: "No autorizado" };
     }
 
-    // If currently favorite, we delete. If not, we add (POST).
-    // Assuming backend has robust toggle or separate endpoints.
-    // Based on user prompt "Toggle favorito ... Sincronizado con backend"
-    // Usually POST /favorites/{id} or DELETE /favorites/{id}
-
     const method = isFavorite ? "DELETE" : "POST";
 
     try {
