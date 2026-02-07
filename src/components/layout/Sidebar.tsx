@@ -147,7 +147,7 @@ function SidebarContent({ className }: { className?: string }) {
              </div>
              {/* Toggle Switch */}
              <div className={cn(
-               "w-12 h-6 rounded-full relative cursor-pointer transition-colors border border-[#36E27B]/30",
+               "w-12 h-6 rounded-full relative cursor-pointer transition-colors",
                isActive("uso", "vaquillona") ? "bg-[#36E27B]" : "bg-[#111714]"
              )}>
                 <div className={cn(
