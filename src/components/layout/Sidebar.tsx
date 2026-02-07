@@ -74,7 +74,7 @@ function SidebarContent({ className }: { className?: string }) {
     <div className={cn("flex flex-col h-screen w-80 bg-[#111714] text-white p-6 border-none overflow-y-auto overflow-x-hidden no-scrollbar", className)}>
       {/* Brand */}
       <div className="flex items-center gap-3 mb-8 px-1">
-        <div className="h-8 w-8 rounded-full bg-[#36E27B] flex items-center justify-center text-white font-bold">
+        <div className="h-8 w-8 rounded-full bg-[#36E27B] flex items-center justify-center text-black font-bold">
           B
         </div>
         <span className="text-xl font-bold tracking-tight">Bulltrack</span>
@@ -82,8 +82,13 @@ function SidebarContent({ className }: { className?: string }) {
 
       <div className="flex-1 flex flex-col gap-6">
         
+        <div className="px-1">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider">Filtros activos</h3>
+        </div>
+
+        {/* Group: Origen */}
         <div className="space-y-3">
-             <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1">
+             <label className="text-xs font-bold text-gray-400 block px-1">
                 Origen
              </label>
 
@@ -125,7 +130,7 @@ function SidebarContent({ className }: { className?: string }) {
              </div>
           </FilterCard>
 
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1 pt-2">
+          <label className="text-xs font-bold text-gray-400 block px-1 pt-2">
              Pelaje
           </label>
           <FilterCard>
