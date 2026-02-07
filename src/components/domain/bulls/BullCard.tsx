@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Eye } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
+import { t } from "@/lib/i18n";
 
 interface BullCardProps {
   bull: Bull & { rank: number; isFavorite?: boolean }; // Inject rank for display
@@ -48,7 +49,7 @@ export function BullCard({ bull }: BullCardProps) {
                 "text-[10px] px-2 py-0.5 rounded border font-medium",
                 bull.source === 'PROPIO' ? "border-emerald-500 text-emerald-600 bg-emerald-50" : "border-emerald-200 text-emerald-600 bg-emerald-50"
              )}>
-                {bull.source === 'PROPIO' ? 'Propio' : 'Catálogo'}
+                {t("origen", bull.source)}
              </span>
              {bull.characteristics?.slice(0, 2).map((char, i) => (
                 <span key={i} className="text-[10px] px-2 py-0.5 rounded border border-blue-200 text-blue-600 bg-blue-50 font-medium">
@@ -64,7 +65,7 @@ export function BullCard({ bull }: BullCardProps) {
         {/* 4. Score */}
         <div className="w-[300px] px-6 py-3 flex flex-col justify-center">
           <div className="flex justify-between items-end mb-1">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">BULL SCORE</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("ui", "bullScore")}</span>
             <span className="text-2xl font-medium text-gray-900">{bull.bullScore.toFixed(1)}</span>
           </div>
           <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden mb-1">

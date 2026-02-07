@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { ChevronDown, Check, ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { t } from "@/lib/i18n";
 
 // Helper for the Card style seen in screenshots
 const FilterCard = ({ children, className, onClick, isSelected }: { children: React.ReactNode, className?: string, onClick?: () => void, isSelected?: boolean }) => (
@@ -100,13 +101,13 @@ function SidebarContent({ className }: { className?: string }) {
       <div className="flex-1 flex flex-col gap-6">
         
         <div className="px-1">
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider">Filtros activos</h3>
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider">{t("ui", "activeFilters")}</h3>
         </div>
 
         {/* Group: Origen */}
         <div className="space-y-3">
              <label className="text-xs font-bold text-gray-400 block px-1">
-                Origen
+                {t("ui", "activeFilters")}
              </label>
 
              <FilterCard onClick={() => handleOriginChange("all")} isSelected={!searchParams.get("origen") && !isFavoritesActive}>
@@ -115,12 +116,12 @@ function SidebarContent({ className }: { className?: string }) {
              </FilterCard>
 
              <FilterCard onClick={() => handleOriginChange("source", "PROPIO")} isSelected={isActive("origen", "PROPIO")}>
-                 <span className="text-sm font-medium text-gray-200">Toros propios</span>
+                 <span className="text-sm font-medium text-gray-200">{t("origen", "PROPIO")}</span>
                  <Checkbox checked={isActive("origen", "PROPIO")} />
              </FilterCard>
               
              <FilterCard onClick={() => handleOriginChange("source", "CATALOGO")} isSelected={isActive("origen", "CATALOGO")}>
-                 <span className="text-sm font-medium text-gray-200">Catálogo</span>
+                 <span className="text-sm font-medium text-gray-200">{t("origen", "CATALOGO")}</span>
                  <Checkbox checked={isActive("origen", "CATALOGO")} />
              </FilterCard>
  
@@ -141,7 +142,7 @@ function SidebarContent({ className }: { className?: string }) {
             isSelected={isActive("uso", "vaquillona")}
           >
              <div className="flex flex-col">
-                <span className="text-sm font-medium text-gray-200">Para vaquillona</span>
+                <span className="text-sm font-medium text-gray-200">{t("uso", "vaquillona")}</span>
                 <span className="text-xs text-gray-500 mt-0.5">Facilidad de parto</span>
              </div>
              {/* Toggle Switch */}
@@ -193,7 +194,7 @@ function SidebarContent({ className }: { className?: string }) {
                         setIsPelajeOpen(false);
                      }}
                    >
-                     {opt.label}
+                     {t("pelaje", opt.value) || opt.label}
                    </div>
                  ))}
               </div>
@@ -216,10 +217,10 @@ function SidebarContent({ className }: { className?: string }) {
       </div>
       
       <div className="h-px bg-white/30 w-full my-6" /> 
-
-       <div>
+ 
+        <div>
           <div className="p-5 rounded-2xl bg-[#152B1E] space-y-4 border border-[#1f2b28]">
-            <h4 className="text-white font-bold text-sm">Objetivo actual</h4>
+            <h4 className="text-white font-bold text-sm">{t("ui", "currentObjective")}</h4>
             <p className="text-sm text-gray-400 leading-relaxed">
                Maximizar la ganancia de peso (destete) manteniendo facilidad de parto.
             </p>
@@ -228,10 +229,10 @@ function SidebarContent({ className }: { className?: string }) {
                className="w-full justify-between bg-transparent border-[#36E27B]/50 text-[#36E27B] hover:bg-[#36E27B]/10 hover:text-[#36E27B] h-10 rounded-xl"
             >
                <ArrowLeft className="h-4 w-4" />
-               <span className="text-sm font-medium">Editar criterios</span>
+               <span className="text-sm font-medium">{t("ui", "editCriteria")}</span>
             </Button>
           </div>
-       </div>
+        </div>
     </div>
   );
 }

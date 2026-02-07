@@ -3,6 +3,8 @@ import { Search, Download, List, LayoutGrid, Info, ChevronDown } from "lucide-re
 import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
 
+import { t } from "@/lib/i18n";
+
 interface DashboardPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
@@ -24,7 +26,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
          <div className="space-y-1">
            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
              <span className="h-4 w-4 rounded-full border border-gray-400 flex items-center justify-center text-[10px]">☁</span>
-             Datos actualizados hace 2 min
+             {t("ui", "updatedAgo")} 2 min
            </div>
            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Resultados de la clasificación</h1>
            <p className="text-gray-500">
@@ -32,7 +34,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
            </p>
          </div>
          <Button variant="outline" className="bg-gray-900 text-white border-none hover:bg-gray-700 flex gap-2">
-            Exportar <Download className="h-4 w-4" />
+            {t("ui", "export")} <Download className="h-4 w-4" />
          </Button>
       </div>
 
@@ -40,7 +42,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <div className="bg-gray-100 rounded-lg p-3 flex items-center justify-between cursor-pointer hover:bg-gray-200 transition-colors">
          <div className="flex items-center gap-2">
             <Info className="h-5 w-5 text-gray-500" />
-            <span className="font-semibold text-gray-700">Criterios del ranking</span>
+            <span className="font-semibold text-gray-700">{t("ui", "rankCriteria")}</span>
          </div>
          <ChevronDown className="h-5 w-5 text-gray-400" />
       </div>
@@ -51,13 +53,13 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
              <input 
                type="text" 
-               placeholder="Busca por caravana, nombre o cabaña" 
+               placeholder={t("ui", "searchPlaceholder")} 
                className="w-full pl-10 pr-4 py-2 text-sm focus:outline-none placeholder:text-gray-400 border-none ring-0 outline-none"
              />
          </div>
          
          <div className="flex items-center gap-6 pr-2">
-            <span className="font-bold text-gray-900 text-lg">24 <span className="font-normal text-gray-500 text-base">resultados</span></span>
+            <span className="font-bold text-gray-900 text-lg">{bulls.length} <span className="font-normal text-gray-500 text-base">{t("ui", "results")}</span></span>
             
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
                <button className="p-1.5 rounded bg-gray-900 text-white shadow-sm">
@@ -78,7 +80,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           ))
         ) : (
           <div className="text-center py-20 text-gray-500">
-            No se encontraron resultados
+            {t("ui", "noResults")}
           </div>
         )}
       </div>
