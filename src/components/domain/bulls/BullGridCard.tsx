@@ -49,16 +49,15 @@ export function BullGridCard({ bull }: BullGridCardProps) {
            </div>
 
            {/* Quick Action Button */}
-           <div className="absolute bottom-3 right-3 transform translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="absolute bottom-3 right-3 transform translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
               <Button 
                 onClick={openDetail}
-                variant="ghost" 
                 size="icon" 
-                className="h-9 w-9 rounded-full bg-white text-gray-900 hover:bg-[#36E27B] hover:text-white shadow-xl p-1.5 border-none cursor-pointer"
+                className="h-9 w-9 rounded-full bg-white/90 backdrop-blur-sm text-gray-900 hover:bg-emerald-500 hover:text-white shadow-xl p-2 border-none cursor-pointer transition-all duration-200"
               >
                  <Eye className="h-full w-full" />
               </Button>
-           </div>
+            </div>
         </div>
 
         {/* 2. Content */}

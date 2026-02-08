@@ -27,17 +27,16 @@ export function FavoriteButton({ bullId, initialIsFavorite }: FavoriteButtonProp
 
   return (
     <Button
-      variant="ghost"
       size="icon"
       onClick={handleToggle}
       className={cn(
-        "h-8 w-8 rounded-full transition-colors shadow-sm p-1.5",
+        "h-8 w-8 rounded-full transition-all duration-200 shadow-sm p-1.5 border-none cursor-pointer",
         isFavorite 
-          ? "bg-red-50 text-red-500 hover:bg-red-100" 
-          : "bg-gray-900 text-white hover:bg-gray-800"
+          ? "bg-red-50 text-red-500 hover:bg-red-500 hover:text-white" 
+          : "bg-gray-900 text-white hover:bg-gray-700 hover:shadow-md"
       )}
     >
-      <Heart className={cn("h-full w-full", isFavorite && "fill-current")} />
+      <Heart className={cn("h-full w-full transition-transform duration-200 group-hover:scale-110", isFavorite && "fill-current")} />
     </Button>
   );
 }

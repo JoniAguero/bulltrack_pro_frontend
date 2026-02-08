@@ -121,9 +121,8 @@ export function BullCard({ bull }: BullCardProps) {
            <div className="w-full md:w-autoflex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pr-4 md:pl-2 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100">
               <Button 
                 onClick={openDetail}
-                variant="ghost" 
                 size="icon" 
-                className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-800 shadow-sm p-1.5 cursor-pointer"
+                className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700 shadow-sm p-2 cursor-pointer border-none transition-all duration-200 hover:shadow-md"
               >
                  <Eye className="h-full w-full" />
               </Button>
