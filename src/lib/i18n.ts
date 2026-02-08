@@ -17,6 +17,7 @@ export const TRANSLATIONS = {
         bullScore: "Bull Score",
         results: "resultados",
         export: "Exportar",
+        exportButton: "Exportar Excel",
         rankCriteria: "Criterios del ranking",
         updatedAgo: "Datos actualizados hace",
         noResults: "No se encontraron resultados",

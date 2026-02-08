@@ -3,15 +3,19 @@
 import { Button } from "@/components/ui/Button";
 import { Download } from "lucide-react";
 import * as XLSX from "xlsx";
-import { Bull } from "@/types/bulls";
 import { t } from "@/lib/i18n";
+import { Bull } from "@/types/bulls";
 
 interface ExportButtonProps {
-  data: Bull[];
+  data?: Bull[];
 }
 
 export function ExportButton({ data }: ExportButtonProps) {
   const handleExport = () => {
+    if (!data || data.length === 0) {
+      alert("No hay datos para exportar. Por favor, espera a que los resultados carguen.");
+      return;
+    }
 
     const exportData = data.map((bull) => ({
       Caravana: bull.caravana,
@@ -26,7 +30,6 @@ export function ExportButton({ data }: ExportButtonProps) {
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
-
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Toros");
 
@@ -38,11 +41,13 @@ export function ExportButton({ data }: ExportButtonProps) {
 
   return (
     <Button 
-      variant="outline" 
       onClick={handleExport}
-      className="bg-gray-900 text-white border-none cursor-pointer hover:bg-gray-400 flex gap-2"
+      variant="outline" 
+      disabled={!data || data.length === 0}
+      className="cursor-pointer w-full md:w-auto border-gray-200 text-gray-700 font-bold px-6 h-11 md:h-12 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-all active:scale-95"
     >
-      {t("ui", "export")} <Download className="h-4 w-4" />
+      <Download className="h-5 w-5" />
+      {t("ui", "exportButton")}
     </Button>
   );
 }

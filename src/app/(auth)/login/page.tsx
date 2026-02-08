@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { loginAction } from "@/actions/auth.actions";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(loginAction, initialState);
+  const [state, formAction, isPending] = useActionState(loginAction, initialState);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
@@ -37,8 +37,12 @@ export default function LoginPage() {
               <p className="text-sm font-medium text-red-500 text-center">{state.error}</p>
             )}
             
-            <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
-              Ingresar
+            <Button 
+               type="submit" 
+               className="w-full bg-emerald-600 hover:bg-emerald-700"
+               disabled={isPending}
+            >
+              {isPending ? "Iniciando sesión..." : "Ingresar"}
             </Button>
           </form>
         </CardContent>

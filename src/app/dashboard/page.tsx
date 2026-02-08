@@ -1,21 +1,19 @@
+import { Suspense } from "react";
 import { Info, ChevronDown } from "lucide-react";
-import { getBulls } from "@/services/bulls.service";
-import { BullCard } from "@/components/domain/bulls/BullCard";
 import { ExportButton } from "@/components/domain/bulls/ExportButton";
 import { SearchInput } from "@/components/domain/bulls/SearchInput";
-
+import { BullsList } from "@/components/domain/bulls/BullsList";
+import { BullsSkeleton } from "@/components/domain/bulls/BullsSkeleton";
+import { ViewToggle } from "@/components/domain/bulls/ViewToggle";
+import { ExportButtonContainer } from "@/components/domain/bulls/ExportButtonContainer";
+import { Button } from "@/components/ui/Button";
+import { Download } from "lucide-react";
 import { t } from "@/lib/i18n";
-
 import { cookies } from "next/headers";
 
 interface DashboardPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
-
-import { ViewToggle } from "@/components/domain/bulls/ViewToggle";
-import { BullGridCard } from "@/components/domain/bulls/BullGridCard";
-import { BullDetailDrawer } from "@/components/domain/bulls/BullDetailDrawer";
-import { cn } from "@/lib/utils";
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const params = await searchParams;
@@ -24,11 +22,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const uso = typeof params.uso === "string" ? params.uso : undefined;
   const pelaje = typeof params.pelaje === "string" ? params.pelaje : undefined;
   const search = typeof params.search === "string" ? params.search : undefined;
+  const bullId = typeof params.bullId === "string" ? params.bullId : undefined;
   const view = typeof params.view === "string" ? params.view : "list";
 
   const token = (await cookies()).get("session_token")?.value;
   
-  const bulls = await getData({ origen, favorites, uso, pelaje, search }, token);
+  const filters = { origen, favorites, uso, pelaje, search };
 
   return (
     <div className="space-y-4 md:space-y-6 max-w-7xl mx-auto pb-10">
@@ -45,7 +44,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
            </p>
          </div>
          <div className="w-full md:w-auto">
-            <ExportButton data={bulls} />
+            <Suspense fallback={
+               <Button disabled variant="outline" className="w-full md:w-auto border-gray-200 text-gray-400 font-bold px-6 h-11 md:h-12 rounded-xl flex items-center justify-center gap-2 opacity-50">
+                  <Download className="h-5 w-5 animate-pulse" />
+                  {t("ui", "exportButton")}
+               </Button>
+            }>
+               <ExportButtonContainer filters={filters} token={token} />
+            </Suspense>
          </div>
       </div>
 
@@ -63,52 +69,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
          </div>
          
          <div className="flex items-center justify-between sm:justify-end gap-6 sm:pr-2">
-            <span className="font-bold text-gray-900 text-base md:text-lg whitespace-nowrap">
-               {bulls.length} <span className="font-normal text-gray-500 text-sm md:text-base">{t("ui", "results")}</span>
-            </span>
-            
             <ViewToggle />
          </div>
       </div>
 
-      <div className={cn(
-        "gap-3 md:gap-4 transition-all duration-300",
-        view === "grid" 
-          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
-          : "flex flex-col"
-      )}>
-        {bulls.length > 0 ? (
-          bulls.map((bull, index) => (
-            view === "grid" ? (
-              <BullGridCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
-            ) : (
-              <BullCard key={bull.id} bull={{ ...bull, rank: index + 1 }} />
-            )
-          ))
-        ) : (
-          <div className={cn(
-             "text-center py-10 md:py-20 text-gray-500 bg-white rounded-2xl border border-dashed",
-             view === "grid" ? "col-span-full" : "w-full"
-          )}>
-            {t("ui", "noResults")}
-          </div>
-        )}
-      </div>
-
-      <BullDetailDrawer 
-         isOpen={!!params.bullId} 
-         bull={bulls.find(b => b.id === params.bullId)} 
-      />
+      <Suspense key={JSON.stringify(filters) + view + bullId} fallback={<BullsSkeleton view={view as any} />}>
+         <BullsList filters={{ ...filters, bullId }} token={token} view={view as any} />
+      </Suspense>
     </div>
   );
 }
 
-async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string; search?: string }, token?: string) {
-  try {
-     const res = await getBulls(1, 10, filters, token);
-     return res.data;
-  } catch (e) {
-     console.error("Backend Error:", e);
-     throw new Error("No se pudo conectar con el servidor. Por favor, asegúrate de que el backend esté corriendo.");
-  }
-}

@@ -69,12 +69,12 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
         <div className="sticky top-0 z-10 flex justify-between items-center p-4 md:p-6 bg-transparent">
            <button 
              onClick={handleClose}
-             className="h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-all shadow-lg"
+             className="cursor-pointer h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-all shadow-lg"
            >
              <X className="h-6 w-6" />
            </button>
            <div className="flex gap-2">
-              <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-all shadow-lg">
+              <button className="cursor-pointer h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-all shadow-lg">
                 <Share2 className="h-5 w-5" />
               </button>
               <FavoriteButton 
