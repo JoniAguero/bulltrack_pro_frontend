@@ -1,9 +1,9 @@
 export interface Bull {
     id: string;
-    caravana: string; // "Toro #992"
+    caravana: string;
     name: string;
-    breed: string; // "Angus"
-    birthDate: string; // Calculate age from this
+    breed: string;
+    birthDate: string;
     photoUrl?: string;
     source: 'PROPIO' | 'CATALOGO';
     bullScore: number;
@@ -11,12 +11,19 @@ export interface Bull {
     characteristics: {
         name: string;
         value: string | number;
-        percentile?: number; // "Top 1%"
+        percentile?: number;
     }[];
-    // Helper for UI tags
-    primaryTag?: string; // "Propio"
-    secondaryTags?: string[]; // ["Para vaquillona"]
+    metrics: {
+        crecimiento: number;
+        facilidad_parto: number;
+        reproduccion: number;
+        moderacion: number;
+        carcasa: number;
+    };
+    highlightedCharacteristic?: string;
     isFavorite: boolean;
+    primaryTag?: string;
+    secondaryTags?: string[];
 }
 
 export interface BullsResponse {

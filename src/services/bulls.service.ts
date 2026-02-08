@@ -53,6 +53,20 @@ export async function getBulls(
             bullScore: b.bullScore || 0,
             photoUrl: b.photoUrl,
             isFavorite: b.isFavorite || false,
+            metrics: b.stats ? {
+                crecimiento: b.stats.crecimiento || 0,
+                facilidad_parto: b.stats.facilidad_parto || 0,
+                reproduccion: b.stats.reproduccion || 0,
+                moderacion: b.stats.moderacion || 0,
+                carcasa: b.stats.carcasa || 0,
+            } : {
+                crecimiento: 0,
+                facilidad_parto: 0,
+                reproduccion: 0,
+                moderacion: 0,
+                carcasa: 0,
+            },
+            highlightedCharacteristic: b.caracteristica_destacada,
             characteristics: b.caracteristica_destacada ? [{
                 name: b.caracteristica_destacada,
                 value: ""

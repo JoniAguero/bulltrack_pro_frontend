@@ -1,3 +1,5 @@
+"use client";
+
 import { Bull } from "@/types/bulls";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button"; 
@@ -10,7 +12,22 @@ interface BullCardProps {
   bull: Bull & { rank: number; isFavorite?: boolean }; 
 }
 
+import { useRouter, useSearchParams } from "next/navigation";
+
+interface BullCardProps {
+  bull: Bull & { rank: number; isFavorite?: boolean }; 
+}
+
 export function BullCard({ bull }: BullCardProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const openDetail = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("bullId", bull.id.toString());
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
   return (
     <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow bg-white">
       <CardContent className="p-0 flex flex-col md:flex-row items-stretch md:items-center md:h-28">
@@ -102,7 +119,12 @@ export function BullCard({ bull }: BullCardProps) {
 
            {/* 6. Actions */}
            <div className="w-full md:w-autoflex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pr-4 md:pl-2 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100">
-              <Button variant="ghost" size="icon" className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-800 shadow-sm p-1.5">
+              <Button 
+                onClick={openDetail}
+                variant="ghost" 
+                size="icon" 
+                className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-800 shadow-sm p-1.5 cursor-pointer"
+              >
                  <Eye className="h-full w-full" />
               </Button>
               <FavoriteButton bullId={bull.id} initialIsFavorite={bull.isFavorite || false} />

@@ -1,3 +1,5 @@
+"use client";
+
 import { Bull } from "@/types/bulls";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button"; 
@@ -6,11 +8,21 @@ import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/i18n";
 
+import { useRouter, useSearchParams } from "next/navigation";
+
 interface BullGridCardProps {
   bull: Bull & { rank: number; isFavorite?: boolean }; 
 }
 
 export function BullGridCard({ bull }: BullGridCardProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const openDetail = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("bullId", bull.id.toString());
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
   return (
     <Card className="group border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 bg-white flex flex-col h-full">
       <CardContent className="p-0 flex flex-col h-full relative">
@@ -38,7 +50,12 @@ export function BullGridCard({ bull }: BullGridCardProps) {
 
            {/* Quick Action Button */}
            <div className="absolute bottom-3 right-3 transform translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-              <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full bg-white text-gray-900 hover:bg-[#36E27B] hover:text-white shadow-xl p-1.5 border-none">
+              <Button 
+                onClick={openDetail}
+                variant="ghost" 
+                size="icon" 
+                className="h-9 w-9 rounded-full bg-white text-gray-900 hover:bg-[#36E27B] hover:text-white shadow-xl p-1.5 border-none cursor-pointer"
+              >
                  <Eye className="h-full w-full" />
               </Button>
            </div>

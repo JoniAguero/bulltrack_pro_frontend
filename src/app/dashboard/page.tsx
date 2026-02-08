@@ -14,6 +14,7 @@ interface DashboardPageProps {
 
 import { ViewToggle } from "@/components/domain/bulls/ViewToggle";
 import { BullGridCard } from "@/components/domain/bulls/BullGridCard";
+import { BullDetailDrawer } from "@/components/domain/bulls/BullDetailDrawer";
 import { cn } from "@/lib/utils";
 
 // ... inside DashboardPage component
@@ -98,6 +99,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           </div>
         )}
       </div>
+
+      {/* 5. Detail Drawer */}
+      <BullDetailDrawer 
+         isOpen={!!params.bullId} 
+         bull={bulls.find(b => b.id === params.bullId)} 
+      />
     </div>
   );
 }
