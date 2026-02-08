@@ -44,7 +44,7 @@ export function ExportButton({ data }: ExportButtonProps) {
     <Button 
       variant="outline" 
       onClick={handleExport}
-      className="bg-gray-900 text-white border-none hover:bg-gray-700 flex gap-2"
+      className="bg-gray-900 text-white border-none cursor-pointer hover:bg-gray-400 flex gap-2"
     >
       {t("ui", "export")} <Download className="h-4 w-4" />
     </Button>
