@@ -74,7 +74,7 @@ export function BullCard({ bull }: BullCardProps) {
 
         <div className="hidden md:block h-16 w-px bg-gray-200 mx-2" />
 
-        <div className="flex flex-col md:flex-row items-center w-full md:w-auto">
+        <div className="flex flex-col md:flex-row items-center">
           <div className="w-full md:w-[260px] lg:w-[300px] px-5 py-3 md:px-6 md:py-3 flex flex-col justify-center border-t md:border-t-0 border-gray-100">
             <div className="flex justify-between items-end mb-1">
               <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("ui", "bullScore")}</span>
@@ -102,17 +102,18 @@ export function BullCard({ bull }: BullCardProps) {
                 Perfil de Aptitudes
              </p>
           </div>
+        </div>
 
-           <div className="w-full md:w-autoflex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pr-4 md:pl-2 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100">
-              <Button 
-                onClick={openDetail}
-                size="icon" 
-                className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700 shadow-sm p-2 cursor-pointer border-none transition-all duration-200 hover:shadow-md"
-              >
-                 <Eye className="h-full w-full" />
-              </Button>
-              <FavoriteButton bullId={bull.id} initialIsFavorite={bull.isFavorite || false} />
-           </div>
+        {/* Actions - Now moved to the right with md:pr-6 padding */}
+        <div className="w-full md:w-auto flex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pl-4 md:pr-6 md:py-0 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100 ml-auto">
+          <Button 
+            onClick={openDetail}
+            size="icon" 
+            className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-gray-900 text-white hover:bg-gray-700 shadow-sm p-2 cursor-pointer border-none transition-all duration-200 hover:shadow-md"
+          >
+             <Eye className="h-full w-full" />
+          </Button>
+          <FavoriteButton bullId={bull.id} initialIsFavorite={bull.isFavorite || false} />
         </div>
          
       </CardContent>
