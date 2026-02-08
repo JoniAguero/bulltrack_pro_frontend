@@ -21,19 +21,23 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
 
   const handleClose = () => {
     setIsClosing(true);
-    setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete("bullId");
-      router.replace(`?${params.toString()}`, { scroll: false });
-      setIsClosing(false);
-    }, 300);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("bullId");
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setIsClosing(false);
     } else {
       document.body.style.overflow = 'unset';
+      // If isOpen becomes false but it wasn't triggered by handleClose,
+      // we still might want to show the closing animation if we were open
+      const timer = setTimeout(() => {
+        setIsClosing(false);
+      }, 300);
+      return () => clearTimeout(timer);
     }
     return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
