@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/i18n";
 import { FavoriteButton } from "./FavoriteButton";
+import { BullRadarChart } from "./BullRadarChart";
 import { useEffect, useState } from "react";
 
 interface BullDetailDrawerProps {
@@ -46,31 +47,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
   if (!isOpen && !isClosing) return null;
 
   if (!bull) return null;
-
-  // Radar Chart Data Calculation
-  const dimensions = [
-    { name: "Crecimiento", value: bull.metrics?.crecimiento || 0, color: "#36E27B" },
-    { name: "Reproducción", value: bull.metrics?.reproduccion || 0, color: "#3B82F6" },
-    { name: "Moderación", value: bull.metrics?.moderacion || 0, color: "#F59E0B" },
-    { name: "Carcasa", value: bull.metrics?.carcasa || 0, color: "#EF4444" },
-    { name: "Facilidad Parto", value: bull.metrics?.facilidad_parto || 0, color: "#8B5CF6" },
-  ];
-
-  const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
-    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
-    return {
-      x: centerX + radius * Math.cos(angleInRadians),
-      y: centerY + radius * Math.sin(angleInRadians),
-    };
-  };
-
-  const radarPoints = dimensions.map((d, i) => {
-    const angle = (i * 360) / dimensions.length;
-    const radius = (d.value / 100) * 80;
-    return polarToCartesian(100, 100, radius, angle);
-  });
-
-  const radarPath = radarPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ') + ' Z';
 
   return (
     <div className={cn(
@@ -204,56 +180,12 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
                  Perfil de Aptitudes
               </h4>
               
-              <div className="relative h-[250px] w-[250px] flex items-center justify-center mb-6">
-
-                 <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-gray-100 fill-none stroke-current stroke-1">
-                    {[1, 0.75, 0.5, 0.25].map((scale) => {
-                      const points = dimensions.map((_, i) => {
-                        const angle = (i * 360) / dimensions.length;
-                        const p = polarToCartesian(100, 100, 80 * scale, angle);
-                        return `${p.x},${p.y}`;
-                      }).join(' ');
-                      return <polygon key={scale} points={points} />;
-                    })}
-
-                    {dimensions.map((_, i) => {
-                       const angle = (i * 360) / dimensions.length;
-                       const p = polarToCartesian(100, 100, 80, angle);
-                       return <line key={i} x1="100" y1="100" x2={p.x} y2={p.y} />;
-                    })}
-                 </svg>
-
-                 <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full drop-shadow-[0_0_10px_rgba(54,226,123,0.3)]">
-                    <path 
-                      d={radarPath} 
-                      fill="rgba(54, 226, 123, 0.2)" 
-                      stroke="#36E27B" 
-                      strokeWidth="3" 
-                      strokeLinejoin="round" 
-                    />
-                    {radarPoints.map((p, i) => (
-                       <circle key={i} cx={p.x} cy={p.y} r="4" fill="#36E27B" />
-                    ))}
-                 </svg>
-
-                 {dimensions.map((d, i) => {
-                    const angle = (i * 360) / dimensions.length;
-                    const p = polarToCartesian(100, 100, 95, angle);
-                    return (
-                       <span 
-                         key={i} 
-                         className="absolute text-[9px] font-bold text-gray-400 uppercase text-center w-16"
-                         style={{ 
-                            left: `${p.x/2}%`, 
-                            top: `${p.y/2}%`, 
-                            transform: 'translate(-50%, -50%)' 
-                         }}
-                       >
-                          {d.name}
-                       </span>
-                    );
-                 })}
-              </div>
+              <BullRadarChart 
+                bull={bull} 
+                size={250} 
+                showLabels={true} 
+                className="mb-6"
+              />
            </div>
 
            <div className="space-y-4">

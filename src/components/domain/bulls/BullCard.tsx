@@ -1,21 +1,18 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import { Bull } from "@/types/bulls";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button"; 
+import { Button } from "@/components/ui/Button";
 import { Eye } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/Badge";
+import { BullRadarChart } from "./BullRadarChart";
 import { t } from "@/lib/i18n";
 
 interface BullCardProps {
-  bull: Bull & { rank: number; isFavorite?: boolean }; 
-}
-
-import { useRouter, useSearchParams } from "next/navigation";
-
-interface BullCardProps {
-  bull: Bull & { rank: number; isFavorite?: boolean }; 
+  bull: Bull & { rank: number; isFavorite?: boolean };
 }
 
 export function BullCard({ bull }: BullCardProps) {
@@ -94,17 +91,16 @@ export function BullCard({ bull }: BullCardProps) {
             </p>
           </div>
 
-          <div className="hidden lg:flex w-24 h-24 items-center justify-center p-2 relative">
-               <div className="absolute inset-0 flex items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-gray-100 fill-current">
-                     <polygon points="50,5 95,35 75,90 25,90 5,35" />
-                  </svg>
-               </div>
-               <div className="absolute inset-0 flex items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-emerald-400 fill-none stroke-current stroke-2 drop-shadow-sm">
-                     <polygon points="50,15 85,40 70,80 30,80 15,40" fill="rgba(52, 211, 153, 0.1)" />
-                  </svg>
-               </div>
+          <div className="hidden lg:flex flex-col items-center justify-center px-4">
+             <BullRadarChart 
+               bull={bull} 
+               size={80} 
+               showLabels={false} 
+               className="mb-1"
+             />
+             <p className="text-[10px] text-gray-400 font-medium uppercase tracking-tighter">
+                Perfil de Aptitudes
+             </p>
           </div>
 
            <div className="w-full md:w-autoflex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pr-4 md:pl-2 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100">
