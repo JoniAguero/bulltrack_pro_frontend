@@ -137,16 +137,16 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
                  <p className="text-gray-400 text-sm max-w-[200px]">Calificación basada en objetivos de producción</p>
               </div>
               <div className="relative">
-                 <div className="h-24 w-24 rounded-full border-[8px] border-white/5 flex items-center justify-center">
-                    <span className="text-4xl font-black text-[#36E27B]">{bull.bullScore.toFixed(1)}</span>
+                 <div className="h-28 w-28 rounded-full border-[8px] border-white/5 flex items-center justify-center">
+                    <span className="text-3xl font-black text-[#36E27B]">{bull.bullScore.toFixed(1)}</span>
                  </div>
-                 <svg className="absolute inset-0 h-24 w-24 transform -rotate-90">
+                 <svg className="absolute inset-0 h-28 w-28 transform -rotate-90" viewBox="0 0 100 100">
                     <circle 
-                      cx="48" cy="48" r="40" 
+                      cx="50" cy="50" r="44" 
                       fill="none" 
                       stroke="#36E27B" 
                       strokeWidth="8" 
-                      strokeDasharray={`${(bull.bullScore / 100) * 251.2} 251.2`}
+                      strokeDasharray={`${(bull.bullScore / 100) * 276.4} 276.4`}
                       strokeLinecap="round"
                     />
                  </svg>
