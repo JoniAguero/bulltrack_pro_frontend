@@ -32,24 +32,18 @@ export function BullCard({ bull }: BullCardProps) {
     <Card className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow bg-white">
       <CardContent className="p-0 flex flex-col md:flex-row items-stretch md:items-center md:h-28">
         
-        {/* 1. Selection & Rank */}
         <div className="px-5 py-3 md:pl-6 md:pr-4 flex items-center justify-between md:justify-start gap-4 bg-gray-50 md:bg-transparent border-b md:border-b-0 border-gray-100">
            <div className="flex items-center gap-4">
-              {/* Selection Checkbox */}
               <div className="h-5 w-5 rounded border border-blue-500 flex items-center justify-center cursor-pointer">
-                 {/* Checked state would go here */}
               </div>
               
-              {/* Rank */}
               <span className="text-2xl md:text-3xl font-bold text-gray-700 md:w-10">#{bull.rank}</span>
            </div>
            
-           {/* Mobile only caravan */}
            <span className="md:hidden font-bold text-gray-900">Toro # {bull.caravana}</span>
         </div>
 
         <div className="flex flex-1 items-center p-3 md:p-0">
-          {/* 2. Image */}
           <div className="md:py-3 md:pr-4">
             <div className="h-16 w-16 md:h-20 md:w-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
               <img 
@@ -60,7 +54,6 @@ export function BullCard({ bull }: BullCardProps) {
             </div>
           </div>
 
-          {/* 3. Info */}
           <div className="flex-1 ml-4 md:ml-0 md:py-3 md:pr-6 flex flex-col justify-center min-w-[150px]">
             <h3 className="hidden md:block font-bold text-gray-900 text-xl leading-tight mb-1">Toro # {bull.caravana}</h3>
             <p className="text-gray-500 text-xs md:text-sm mb-1.5 md:mb-2">
@@ -82,11 +75,9 @@ export function BullCard({ bull }: BullCardProps) {
           </div>
         </div>
 
-        {/* Vertical Divider (Desktop only) */}
         <div className="hidden md:block h-16 w-px bg-gray-200 mx-2" />
 
         <div className="flex flex-col md:flex-row items-center w-full md:w-auto">
-          {/* 4. Score */}
           <div className="w-full md:w-[260px] lg:w-[300px] px-5 py-3 md:px-6 md:py-3 flex flex-col justify-center border-t md:border-t-0 border-gray-100">
             <div className="flex justify-between items-end mb-1">
               <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("ui", "bullScore")}</span>
@@ -103,7 +94,6 @@ export function BullCard({ bull }: BullCardProps) {
             </p>
           </div>
 
-          {/* 5. Radar Chart (Hidden on mobile) */}
           <div className="hidden lg:flex w-24 h-24 items-center justify-center p-2 relative">
                <div className="absolute inset-0 flex items-center justify-center">
                   <svg viewBox="0 0 100 100" className="w-20 h-20 text-gray-100 fill-current">
@@ -117,7 +107,6 @@ export function BullCard({ bull }: BullCardProps) {
                </div>
           </div>
 
-           {/* 6. Actions */}
            <div className="w-full md:w-autoflex flex-row md:flex-col items-center justify-center gap-3 md:gap-2 px-5 py-3 md:pr-4 md:pl-2 bg-gray-50 md:bg-transparent border-t md:border-t-0 border-gray-100">
               <Button 
                 onClick={openDetail}

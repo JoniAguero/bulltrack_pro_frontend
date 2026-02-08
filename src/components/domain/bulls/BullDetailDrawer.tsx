@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/i18n";
+import { FavoriteButton } from "./FavoriteButton";
 import { useEffect, useState } from "react";
 
 interface BullDetailDrawerProps {
@@ -76,7 +77,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
       "fixed inset-0 z-[100] flex justify-end",
       isClosing ? "pointer-events-none" : ""
     )}>
-      {/* Backdrop */}
       <div 
         className={cn(
           "absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300",
@@ -85,13 +85,11 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
         onClick={handleClose}
       />
 
-      {/* Drawer Panel */}
       <div className={cn(
         "relative w-full max-w-[550px] bg-white h-screen shadow-2xl overflow-y-auto overflow-x-hidden no-scrollbar transition-transform duration-300 transform",
         isOpen && !isClosing ? "translate-x-0" : "translate-x-full"
       )}>
         
-        {/* Sticky Header Actions */}
         <div className="sticky top-0 z-10 flex justify-between items-center p-4 md:p-6 bg-transparent">
            <button 
              onClick={handleClose}
@@ -103,13 +101,19 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/30 transition-all shadow-lg">
                 <Share2 className="h-5 w-5" />
               </button>
-              <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-[#36E27B] hover:text-white transition-all shadow-lg">
-                <Heart className={cn("h-5 w-5", bull.isFavorite && "fill-current")} />
-              </button>
+              <FavoriteButton 
+                bullId={bull.id} 
+                initialIsFavorite={bull.isFavorite || false} 
+                className={cn(
+                  "h-10 w-10 bg-white/20 backdrop-blur-md border-none flex items-center justify-center shadow-lg transition-all",
+                  bull.isFavorite 
+                    ? "bg-red-500 text-white hover:bg-red-600" 
+                    : "text-white hover:bg-white/30"
+                )} 
+              />
            </div>
         </div>
 
-        {/* Hero Section */}
         <div className="mt-[-88px] relative h-[350px] w-full bg-gray-900">
            <img 
              src={bull.photoUrl || "https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop"} 
@@ -129,10 +133,8 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
            </div>
         </div>
 
-        {/* Content Section */}
         <div className="px-8 pb-12 space-y-8">
            
-           {/* BT Score Macro */}
            <div className="bg-gray-900 rounded-[32px] p-8 text-white flex items-center justify-between shadow-xl overflow-hidden relative group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#36E27B] opacity-10 blur-3xl transform translate-x-10 translate-y-[-10]" />
               <div>
@@ -157,7 +159,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               </div>
            </div>
 
-           {/* Metrics Grid */}
            <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex flex-col gap-3">
                  <div className="h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
@@ -197,7 +198,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               </div>
            </div>
 
-           {/* Radar Chart Section */}
            <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-sm flex flex-col items-center">
               <h4 className="text-gray-900 font-bold mb-6 flex items-center gap-2">
                  <Zap className="h-4 w-4 text-emerald-500" />
@@ -205,7 +205,7 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               </h4>
               
               <div className="relative h-[250px] w-[250px] flex items-center justify-center mb-6">
-                 {/* Background Hexagons */}
+
                  <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-gray-100 fill-none stroke-current stroke-1">
                     {[1, 0.75, 0.5, 0.25].map((scale) => {
                       const points = dimensions.map((_, i) => {
@@ -215,7 +215,7 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
                       }).join(' ');
                       return <polygon key={scale} points={points} />;
                     })}
-                    {/* Axis lines */}
+
                     {dimensions.map((_, i) => {
                        const angle = (i * 360) / dimensions.length;
                        const p = polarToCartesian(100, 100, 80, angle);
@@ -223,7 +223,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
                     })}
                  </svg>
 
-                 {/* Data Polygon */}
                  <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full drop-shadow-[0_0_10px_rgba(54,226,123,0.3)]">
                     <path 
                       d={radarPath} 
@@ -237,7 +236,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
                     ))}
                  </svg>
 
-                 {/* Labels */}
                  {dimensions.map((d, i) => {
                     const angle = (i * 360) / dimensions.length;
                     const p = polarToCartesian(100, 100, 95, angle);
@@ -258,7 +256,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               </div>
            </div>
 
-           {/* Additional Details */}
            <div className="space-y-4">
               <h4 className="text-gray-900 font-bold flex items-center gap-2">
                  <FileText className="h-4 w-4 text-emerald-500" />
@@ -269,7 +266,6 @@ export function BullDetailDrawer({ bull, isOpen }: BullDetailDrawerProps) {
               </div>
            </div>
 
-           {/* Actions Footer */}
            <div className="flex gap-4 pt-4">
               <Button className="flex-1 bg-gray-900 text-white rounded-xl h-14 font-bold text-lg hover:bg-gray-800 transition-all shadow-lg active:scale-95">
                  Contactar Propietario

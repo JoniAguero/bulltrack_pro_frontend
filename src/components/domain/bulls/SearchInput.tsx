@@ -3,7 +3,7 @@
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDebounce } from "@/hooks/use-debounce"; // I'll create this hook if it doesn't exist
+import { useDebounce } from "@/hooks/use-debounce"; 
 
 export function SearchInput({ placeholder }: { placeholder: string }) {
   const router = useRouter();

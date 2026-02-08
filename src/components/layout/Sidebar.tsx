@@ -8,7 +8,6 @@ import { Suspense, useState } from "react";
 import { t } from "@/lib/i18n";
 import { logoutAction } from "@/actions/auth.actions";
 
-// Helper for the Card style seen in screenshots
 const FilterCard = ({ children, className, onClick, isSelected }: { children: React.ReactNode, className?: string, onClick?: () => void, isSelected?: boolean }) => (
   <div 
      onClick={onClick}
@@ -105,7 +104,6 @@ function SidebarContent({ className }: { className?: string }) {
           <h3 className="text-sm font-bold text-white uppercase tracking-wider">{t("ui", "activeFilters")}</h3>
         </div>
 
-        {/* Group: Origen */}
         <div className="space-y-3">
              <label className="text-xs font-bold text-gray-400 block px-1">
                 {t("ui", "activeFilters")}
@@ -146,7 +144,7 @@ function SidebarContent({ className }: { className?: string }) {
                 <span className="text-sm font-medium text-gray-200">{t("uso", "vaquillona")}</span>
                 <span className="text-xs text-gray-500 mt-0.5">Facilidad de parto</span>
              </div>
-             {/* Toggle Switch */}
+
              <div className={cn(
                "w-12 h-6 rounded-full relative cursor-pointer transition-colors",
                isActive("uso", "vaquillona") ? "bg-[#36E27B]" : "bg-[#111714]"
@@ -203,7 +201,6 @@ function SidebarContent({ className }: { className?: string }) {
           </div>
         </div>
 
-         {/* Group: Ordenamiento */}
          <div className="space-y-2">
             <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block px-1">
                Ordenamiento

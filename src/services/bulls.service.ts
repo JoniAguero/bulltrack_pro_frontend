@@ -42,7 +42,6 @@ export async function getBulls(
 
         const backendResponse = await res.json();
 
-        // Map backend response to frontend Bull interface
         const mappedData = (backendResponse.data || []).map((b: any) => ({
             id: String(b.id),
             caravana: b.caravana,

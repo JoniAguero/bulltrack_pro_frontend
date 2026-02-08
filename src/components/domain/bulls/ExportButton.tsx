@@ -12,7 +12,7 @@ interface ExportButtonProps {
 
 export function ExportButton({ data }: ExportButtonProps) {
   const handleExport = () => {
-    // 1. Prepare data for Excel
+
     const exportData = data.map((bull) => ({
       Caravana: bull.caravana,
       Nombre: bull.name,
@@ -25,18 +25,14 @@ export function ExportButton({ data }: ExportButtonProps) {
         .join(", "),
     }));
 
-    // 2. Create worksheet
     const worksheet = XLSX.utils.json_to_sheet(exportData);
 
-    // 3. Create workbook and append worksheet
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Toros");
 
-    // 4. Generate filename with current date
     const date = new Date().toISOString().split("T")[0];
     const filename = `bulltrack_export_${date}.xlsx`;
 
-    // 5. Trigger download
     XLSX.writeFile(workbook, filename);
   };
 

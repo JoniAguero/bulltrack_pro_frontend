@@ -12,7 +12,6 @@ export default function DashboardLayout({
       <div className="flex-1 lg:ml-[300px] flex flex-col min-h-screen w-full">
         <Header />
         
-        {/* Main Content Area with 40px Top Radius */}
         <main className="flex-1 bg-[#F3F4F6] rounded-tl-[30px] rounded-tr-[30px] lg:rounded-tl-[40px] lg:rounded-tr-[40px] mt-0 overflow-hidden relative"> 
            <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-8">
               {children}

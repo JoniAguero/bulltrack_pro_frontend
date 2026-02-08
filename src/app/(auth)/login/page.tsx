@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 
-// Initial state matching the server action return type
 const initialState = {
   error: "",
 };

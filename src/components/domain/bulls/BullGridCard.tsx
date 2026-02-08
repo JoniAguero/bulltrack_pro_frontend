@@ -27,7 +27,6 @@ export function BullGridCard({ bull }: BullGridCardProps) {
     <Card className="group border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 bg-white flex flex-col h-full">
       <CardContent className="p-0 flex flex-col h-full relative">
         
-        {/* 1. Image and Overlays */}
         <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100">
            <img 
              src={bull.photoUrl || "https://images.unsplash.com/photo-1541689221361-ad95003448dc?q=80&w=2670&auto=format&fit=crop"} 
@@ -35,20 +34,16 @@ export function BullGridCard({ bull }: BullGridCardProps) {
              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
            />
            
-           {/* Gradient Overlay */}
            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
 
-           {/* Rank Badge */}
            <div className="absolute top-3 left-3 bg-gray-900/90 backdrop-blur-md text-white px-2.5 py-1 rounded-lg font-bold text-sm shadow-lg border border-white/20">
               #{bull.rank}
            </div>
 
-           {/* Favorite Button Overlay */}
            <div className="absolute top-3 right-3 transform translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
               <FavoriteButton bullId={bull.id} initialIsFavorite={bull.isFavorite || false} />
            </div>
 
-           {/* Quick Action Button */}
             <div className="absolute bottom-3 right-3 transform translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
               <Button 
                 onClick={openDetail}
@@ -60,7 +55,6 @@ export function BullGridCard({ bull }: BullGridCardProps) {
             </div>
         </div>
 
-        {/* 2. Content */}
         <div className="p-4 md:p-5 flex flex-col flex-1">
            <div className="flex justify-between items-start mb-2">
               <div>
@@ -75,7 +69,6 @@ export function BullGridCard({ bull }: BullGridCardProps) {
               </div>
            </div>
 
-           {/* Characteristics Tags */}
            <div className="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-gray-50">
               <span className={cn(
                  "text-[9px] px-2 py-0.5 rounded border font-bold uppercase",

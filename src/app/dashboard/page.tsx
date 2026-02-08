@@ -1,4 +1,4 @@
-import { Search, Download, List, LayoutGrid, Info, ChevronDown } from "lucide-react";
+import { Info, ChevronDown } from "lucide-react";
 import { getBulls } from "@/services/bulls.service";
 import { BullCard } from "@/components/domain/bulls/BullCard";
 import { ExportButton } from "@/components/domain/bulls/ExportButton";
@@ -17,7 +17,6 @@ import { BullGridCard } from "@/components/domain/bulls/BullGridCard";
 import { BullDetailDrawer } from "@/components/domain/bulls/BullDetailDrawer";
 import { cn } from "@/lib/utils";
 
-// ... inside DashboardPage component
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const params = await searchParams;
   const origen = typeof params.origen === "string" ? params.origen : undefined;
@@ -34,7 +33,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   return (
     <div className="space-y-4 md:space-y-6 max-w-7xl mx-auto pb-10">
       
-      {/* 1. Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-0">
          <div className="space-y-1">
            <div className="flex items-center gap-2 text-[10px] md:text-sm text-gray-500 mb-1 md:mb-2">
@@ -51,7 +49,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
          </div>
       </div>
 
-      {/* 2. Criterios Banner */}
       <div className="bg-gray-100 rounded-xl p-3 flex items-center justify-between cursor-pointer hover:bg-gray-200 transition-colors">
          <div className="flex items-center gap-2">
             <Info className="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
@@ -60,7 +57,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
          <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-gray-400" />
       </div>
 
-      {/* 3. Search & Toolbar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm gap-3 sm:gap-0">
          <div className="flex-1">
             <SearchInput placeholder={t("ui", "searchPlaceholder")} />
@@ -75,7 +71,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
          </div>
       </div>
 
-      {/* 4. Results List / Grid */}
       <div className={cn(
         "gap-3 md:gap-4 transition-all duration-300",
         view === "grid" 
@@ -100,7 +95,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         )}
       </div>
 
-      {/* 5. Detail Drawer */}
       <BullDetailDrawer 
          isOpen={!!params.bullId} 
          bull={bulls.find(b => b.id === params.bullId)} 
@@ -109,15 +103,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   );
 }
 
-// Fetch data on server
 async function getData(filters?: { origen?: string; favorites?: string; uso?: string; pelaje?: string; search?: string }, token?: string) {
   try {
      const res = await getBulls(1, 10, filters, token);
      return res.data;
   } catch (e) {
      console.error("Backend Error:", e);
-     // We throw the error to let Next.js handle it (error.tsx) or show empty state
-     // For now, let's keep it simple and throw to be aware of failures
      throw new Error("No se pudo conectar con el servidor. Por favor, asegúrate de que el backend esté corriendo.");
   }
 }
