@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = (process.env.BACKEND_API_URL || "http://localhost:3001").replace(/\/$/, "");
 
 export async function toggleFavoriteAction(bullId: string, isFavorite: boolean) {
     const token = (await cookies()).get("session_token")?.value;

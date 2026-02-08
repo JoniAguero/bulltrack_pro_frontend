@@ -1,6 +1,6 @@
 import { BullsResponse } from "@/types/bulls";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = (process.env.BACKEND_API_URL || "http://localhost:3001").replace(/\/$/, "");
 
 export async function getBulls(
     page = 1,

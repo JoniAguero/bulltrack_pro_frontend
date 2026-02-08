@@ -28,10 +28,11 @@ Premium bull classification and management platform built with the latest bleedi
 3. **Environment Variables:**
    Create a `.env.local` file in the root:
    ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3001
+   BACKEND_API_URL=https://valiant-grace-production.up.railway.app/
    ```
 
 4. **Run the development server:**
    ```bash
    npm run dev
    ```
+   The application will be available at [http://localhost:3000](http://localhost:3000).
